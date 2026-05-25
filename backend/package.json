@@ -80,7 +80,7 @@
     "drizzle-kit": "^0.31.10",
     "eslint": "^10.4.0",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-jsdoc": "^62.9.0",
+    "eslint-plugin-jsdoc": "^63.0.0",
     "globals": "^17.6.0",
     "graphql-ws": "^6.0.8",
     "node-pg-migrate": "^8.0.4",
