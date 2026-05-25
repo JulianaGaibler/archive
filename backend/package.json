@@ -45,7 +45,7 @@
     "morgan": "^1.10.1",
     "node-vibrant": "^4.0.4",
     "otplib": "^13.4.0",
-    "pg": "^8.20.0",
+    "pg": "^8.21.0",
     "pg-escape": "^0.2.0",
     "pg-ipc": "^1.0.5",
     "pg-listen": "^1.7.0",
@@ -55,8 +55,8 @@
     "string-strip-html": "^13.5.3",
     "telegraf": "^4.16.3",
     "tmp": "^0.2.5",
-    "ua-parser-js": "^2.0.9",
-    "ws": "^8.20.1",
+    "ua-parser-js": "^2.0.10",
+    "ws": "^8.21.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {
@@ -71,7 +71,7 @@
     "@types/express": "5.0.6",
     "@types/graphql-upload": "^17.0.0",
     "@types/morgan": "^1.9.10",
-    "@types/node": "25.8.0",
+    "@types/node": "25.9.1",
     "@types/pg": "^8.20.0",
     "@types/sharp": "^0.32.0",
     "@types/tmp": "^0.2.6",
@@ -90,8 +90,8 @@
     "ts-node": "^10.9.2",
     "tsc-alias": "^1.8.17",
     "tsconfig-paths": "^4.2.0",
-    "tsx": "^4.22.1",
+    "tsx": "^4.22.3",
     "typescript": "5.9.3",
-    "typescript-eslint": "^8.59.3"
+    "typescript-eslint": "^8.59.4"
   }
 }
