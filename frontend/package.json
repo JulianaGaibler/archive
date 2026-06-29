@@ -19,7 +19,7 @@
     "@types/cookie": "^1.0.0",
     "archive-shared": "*",
     "astro": "^6.4.8",
-    "cookie": "^1.1.1",
+    "cookie": "^2.0.0",
     "graphql": "^16.14.2",
     "graphql-request": "^7.4.0",
     "graphql-tag": "^2.12.7",
