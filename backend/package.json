@@ -83,7 +83,7 @@
     "eslint-plugin-jsdoc": "^63.2.0",
     "globals": "^17.7.0",
     "graphql-ws": "^6.1.0",
-    "node-pg-migrate": "^8.0.4",
+    "node-pg-migrate": "^9.0.0",
     "prettier": "^3.9.5",
     "prettier-plugin-jsdoc": "^1.8.1",
     "rimraf": "^6.1.3",
