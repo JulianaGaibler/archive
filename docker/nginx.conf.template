@@ -14,6 +14,12 @@ server {
     listen 80;
     server_name _;
 
+    # Re-resolve upstream container names at request time via Docker's embedded
+    # DNS. Without this, nginx caches each upstream IP once at startup, so a
+    # rebuilt backend/frontend container (new IP) becomes unreachable until nginx
+    # itself is restarted. Used together with variables in proxy_pass below.
+    resolver 127.0.0.11 valid=10s ipv6=off;
+
     # Global security headers
     add_header X-Content-Type-Options "nosniff" always;
     add_header X-Frame-Options "DENY" always;
@@ -25,7 +31,9 @@ server {
 
     # WebSocket endpoint - most specific location first
     location = /api/websocket {
-        proxy_pass http://backend:${BACKEND_PORT}/websocket;
+        # Variable in proxy_pass forces runtime DNS resolution (see resolver above)
+        set $ws_upstream http://backend:${BACKEND_PORT};
+        proxy_pass $ws_upstream/websocket;
         # Forward headers properly through the proxy chain
         proxy_set_header Host $http_host;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -54,8 +62,13 @@ server {
         limit_req zone=uploads burst=5 nodelay;
         limit_req_status 429;
 
-        # Forward to backend (strip /api/ prefix by adding trailing slash)
-        proxy_pass http://backend:${BACKEND_PORT}/;
+        # Forward to backend, stripping the /api/ prefix. A variable in
+        # proxy_pass forces runtime DNS resolution (see resolver above); the
+        # rewrite reproduces the prefix strip that a trailing-slash proxy_pass
+        # would otherwise do (which isn't available with a variable target).
+        set $api_upstream http://backend:${BACKEND_PORT};
+        rewrite ^/api/(.*)$ /$1 break;
+        proxy_pass $api_upstream;
         # Forward headers properly through the proxy chain
         proxy_set_header Host $http_host;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -163,7 +176,9 @@ server {
         # Use general API rate limiting for SSR requests
         limit_req zone=api burst=20 nodelay;
 
-        proxy_pass http://frontend:${FRONTEND_PORT};
+        # Variable in proxy_pass forces runtime DNS resolution (see resolver above)
+        set $astro_upstream http://frontend:${FRONTEND_PORT};
+        proxy_pass $astro_upstream;
 
         # Forward headers
         proxy_set_header Host $http_host;
