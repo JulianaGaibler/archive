@@ -6,7 +6,18 @@
     "target": "ES2022",
     "module": "nodenext",
     "moduleResolution": "nodenext",
+    // --- Temporary tsc-alias workaround ---
+    // `baseUrl` is deprecated in TypeScript 6 (removed in 7), but tsc-alias
+    // still errors ("rootDir is required with implicit baseUrl") when it's
+    // absent, so we can't drop it yet. For now we keep `baseUrl`, silence the
+    // deprecation with `ignoreDeprecations`, and set `rootDir` explicitly (it
+    // already defaults to "." in TS 6).
+    // TODO: once tsc-alias supports a baseUrl-less config, remove `baseUrl` +
+    // `ignoreDeprecations`, prefix each `paths` entry with "./"
+    // (e.g. "@src/*": ["./src/*"]), and drop `rootDir` if no longer needed.
     "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
+    "rootDir": ".",
     "outDir": "./dist",
     "removeComments": true,
     "allowSyntheticDefaultImports": true,

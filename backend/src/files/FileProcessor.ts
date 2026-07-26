@@ -5,7 +5,7 @@ import ffmpeg, {
   FFProbeMetadata,
 } from './ffmpeg-wrapper.js'
 import fs from 'fs'
-import sharp from 'sharp'
+import sharp, { type FormatEnum } from 'sharp'
 import stream, { Readable } from 'stream'
 import tmp from 'tmp'
 import util from 'util'
@@ -1147,9 +1147,7 @@ export default class FileProcessor {
 
             const [err] = await to(
               pipeline(
-                tf1
-                  .clone()
-                  .toFormat(format as keyof sharp.FormatEnum, formatOptions),
+                tf1.clone().toFormat(format as keyof FormatEnum, formatOptions),
                 fs.createWriteStream(fullPath),
               ),
             )
