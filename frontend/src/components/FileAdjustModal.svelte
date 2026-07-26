@@ -909,16 +909,16 @@
 
   .section
     width: 100%
-    padding-block: tint.$size-16
+    padding-block: var(--tint-size-16)
 
     &:last-child
-      padding-block-end: tint.$size-32
+      padding-block-end: var(--tint-size-32)
 
   .container
     box-sizing: border-box
     max-width: 900px
     margin-inline: auto
-    padding-inline: tint.$size-32
+    padding-inline: var(--tint-size-32)
 
   .preview-area
     width: 100%
@@ -936,7 +936,7 @@
     margin-block: 0
     margin-inline: auto
     max-width: 100%
-    padding: tint.$size-16
+    padding: var(--tint-size-16)
 
     video,
     img
@@ -947,8 +947,8 @@
 
   .crop-overlay
     position: absolute
-    top: 0
-    left: 0
+    inset-block-start: 0
+    inset-inline-start: 0
     pointer-events: all
     user-select: none
 
@@ -958,14 +958,14 @@
     flex-direction: column
     align-items: center
     justify-content: center
-    gap: tint.$size-8
+    gap: var(--tint-size-8)
     min-height: 400px
     color: var(--tint-text-secondary)
 
   .crop-info
     display: flex
     flex-direction: column
-    gap: tint.$size-4
+    gap: var(--tint-size-4)
     color: var(--tint-text-secondary)
     display: flex
     justify-content: center
@@ -973,8 +973,8 @@
     > span
       border: 1px solid
       padding-block: 2px
-      padding-inline: tint.$size-8
-      border-radius: tint.$size-32
+      padding-inline: var(--tint-size-8)
+      border-radius: var(--tint-size-32)
 
   .playback-controls-wrapper
     // Hide the scrubber/progress bar as requested
@@ -984,20 +984,20 @@
   .timeline-container
     display: flex
     flex-direction: column
-    gap: tint.$size-8
+    gap: var(--tint-size-8)
 
   .timeline
     position: relative
-    height: tint.$size-48
+    height: var(--tint-size-48)
     background: var(--tint-input-bg)
-    border-radius: tint.$size-4
+    border-radius: var(--tint-size-4)
     cursor: pointer
     user-select: none
 
   .playback-marker
     position: absolute
-    top: 0
-    bottom: 0
+    inset-block-start: 0
+    inset-block-end: 0
     width: 2px
     background: var(--tint-action-primary)
     pointer-events: none
@@ -1005,8 +1005,8 @@
 
   .trim-range
     position: absolute
-    top: 0
-    bottom: 0
+    inset-block-start: 0
+    inset-block-end: 0
     background: rgba(212, 33, 58, 0.2)
     border-inline-start: 2px solid var(--tint-action-primary)
     border-inline-end: 2px solid var(--tint-action-primary)
@@ -1014,12 +1014,12 @@
 
   .trim-handle
     position: absolute
-    top: 50%
+    inset-block-start: 50%
     transform: translate(-50%, -50%)
-    width: tint.$size-16
-    height: tint.$size-32
+    width: var(--tint-size-16)
+    height: var(--tint-size-32)
     background: var(--tint-action-primary)
-    border-radius: tint.$size-4
+    border-radius: var(--tint-size-4)
     cursor: ew-resize
     z-index: 2
 
@@ -1033,10 +1033,10 @@
 
   .secondary-actions
     display: flex
-    gap: tint.$size-8
+    gap: var(--tint-size-8)
     align-items: center
     flex-wrap: wrap
-    padding-block-start: tint.$size-16
+    padding-block-start: var(--tint-size-16)
     border-block-start: 1px solid var(--tint-border)
 
   .secondary-actions-spacer

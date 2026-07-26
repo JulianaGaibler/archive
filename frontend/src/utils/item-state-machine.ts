@@ -4,8 +4,7 @@ import { MENU_SEPARATOR } from 'tint/components/Menu.svelte'
 
 /** Menu item type for action menus. */
 export type MenuItem =
-  | { label: string; onClick: () => void }
-  | typeof MENU_SEPARATOR
+  { label: string; onClick: () => void } | typeof MENU_SEPARATOR
 
 /** Callbacks for item operations. */
 export interface ItemOperationCallbacks {

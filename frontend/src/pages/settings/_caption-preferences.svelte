@@ -113,11 +113,11 @@
 .controls
   display: flex
   flex-direction: column
-  gap: tint.$size-12
+  gap: var(--tint-size-12)
   width: 100%
 
 .control
   display: flex
   flex-direction: column
-  gap: tint.$size-4
+  gap: var(--tint-size-4)
 </style>

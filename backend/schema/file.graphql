@@ -242,6 +242,9 @@ type TemplateArea {
   font: String!
   fontSize: Int!
   textColor: String!
+  strokeWidth: Int
+  strokeColor: String
+  uppercase: Boolean
   backplateOpacity: Int!
   backplateColor: String!
 }

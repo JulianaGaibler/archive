@@ -113,16 +113,16 @@
   display: flex
   align-items: center
   flex-wrap: wrap
-  gap: tint.$size-12
+  gap: var(--tint-size-12)
 
 .nav-group
   margin-inline: auto
   display: flex
-  gap: tint.$size-12
+  gap: var(--tint-size-12)
   align-items: center
 
 .middle-group
   display: flex
-  gap: tint.$size-4
+  gap: var(--tint-size-4)
   align-items: center
 </style>

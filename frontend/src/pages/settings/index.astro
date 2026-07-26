@@ -118,26 +118,27 @@ try {
 <style lang="sass">
   .head
     background: var(--tint-bg)
-    padding-block: tint.$size-24
-    margin-block-end: tint.$size-16
+    padding-block: var(--tint-size-24)
+    margin-block-end: var(--tint-size-16)
 
   .sections
     display: flex
     flex-direction: column
-    gap: tint.$size-32
-    margin: 0 auto
+    gap: var(--tint-size-32)
+    margin-block: 0
+    margin-inline: auto
     max-width: 768px
     @media (max-width: 768px)
       max-width: 384px
 
     h2
-      margin-block-end: tint.$size-16
+      margin-block-end: var(--tint-size-16)
       color: var(--tint-text-secondary)
 
   .cards
     display: grid
     grid-template-columns: repeat(2, 1fr)
-    gap: tint.$size-16
+    gap: var(--tint-size-16)
     @media (max-width: 768px)
       grid-template-columns: 1fr
 </style>

@@ -208,11 +208,13 @@ function parseValue(
 }
 
 type RequiredEnvVars = {
-  [K in (typeof ENV_VARIABLES)[number] as K extends {
-    fallback: string | number | boolean
-  }
-    ? never
-    : K['name']]: K['type'] extends 'string'
+  [
+    K in (typeof ENV_VARIABLES)[number] as K extends {
+      fallback: string | number | boolean
+    }
+      ? never
+      : K['name']
+  ]: K['type'] extends 'string'
     ? string
     : K['type'] extends 'number'
       ? number
@@ -222,11 +224,13 @@ type RequiredEnvVars = {
 }
 
 type OptionalEnvVars = {
-  [K in (typeof ENV_VARIABLES)[number] as K extends {
-    fallback: string | number | boolean
-  }
-    ? K['name']
-    : never]: K['type'] extends 'string'
+  [
+    K in (typeof ENV_VARIABLES)[number] as K extends {
+      fallback: string | number | boolean
+    }
+      ? K['name']
+      : never
+  ]: K['type'] extends 'string'
     ? string
     : K['type'] extends 'number'
       ? number

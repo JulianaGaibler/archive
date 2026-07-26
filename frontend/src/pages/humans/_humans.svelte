@@ -101,20 +101,20 @@
 <style lang="sass">
   .nav
     background-color: var(--tint-bg)
-    padding-block: tint.$size-32
-    margin-block-end: tint.$size-12
+    padding-block: var(--tint-size-32)
+    margin-block-end: var(--tint-size-12)
     .shrinkwrap
       display: flex
       align-items: center
-      gap: tint.$size-32
+      gap: var(--tint-size-32)
       justify-content: space-between
       @media (max-width: tint.$breakpoint-sm)
         flex-direction: column
         align-items: flex-start
-        gap: tint.$size-12
+        gap: var(--tint-size-12)
 
   .search-results
-    margin-block-end: tint.$size-24
+    margin-block-end: var(--tint-size-24)
     color: var(--tint-text-secondary)
 
   .users-list
@@ -122,17 +122,17 @@
     display: grid
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr))
     grid-auto-rows: 1fr
-    gap: tint.$size-16
+    gap: var(--tint-size-16)
 
   .user-link
-    padding: tint.$size-24
+    padding: var(--tint-size-24)
     text-decoration: none
     color: inherit
     display: flex
     flex-direction: column
     align-items: center
-    gap: tint.$size-16
-    border-radius: tint.$card-radius
+    gap: var(--tint-size-16)
+    border-radius: var(--tint-radius-card)
     @include tint.effect-focus()
     &:hover .name
       text-decoration: underline
@@ -140,7 +140,7 @@
   .user-details
     display: flex
     flex-direction: column
-    gap: tint.$size-4
+    gap: var(--tint-size-4)
     text-align: center
     flex-grow: 1
     > span
@@ -152,8 +152,8 @@
 
   .badge
     color: var(--tint-text-secondary)
-    border-radius: tint.$size-64
+    border-radius: var(--tint-size-64)
     border: 1px solid
-    padding-inline: tint.$size-8
-    padding-block: tint.$size-4
+    padding-inline: var(--tint-size-8)
+    padding-block: var(--tint-size-4)
 </style>

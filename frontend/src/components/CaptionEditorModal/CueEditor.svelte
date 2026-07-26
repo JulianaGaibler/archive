@@ -211,7 +211,7 @@
 .editor-grid
   display: grid
   grid-template-columns: 180px 1fr 180px
-  gap: tint.$size-12
+  gap: var(--tint-size-12)
   align-items: stretch
   :global(.textarea .box)
     flex: 1
@@ -223,13 +223,13 @@
     .left-col, .right-col
       display: grid
       grid-template-columns: 1fr 1fr
-      gap: tint.$size-8
+      gap: var(--tint-size-8)
 
 .left-col,
 .right-col
   display: flex
   flex-direction: column
-  gap: tint.$size-8
+  gap: var(--tint-size-8)
 
 .center-col
   display: flex
@@ -247,5 +247,5 @@
 .end-time-row
   display: flex
   align-items: flex-end
-  gap: tint.$size-4
+  gap: var(--tint-size-4)
 </style>

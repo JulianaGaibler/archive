@@ -86,24 +86,24 @@ try {
 <style lang="sass">
   .nav
     background-color: var(--tint-bg)
-    padding-block: tint.$size-24
-    margin-block-end: tint.$size-2
+    padding-block: var(--tint-size-24)
+    margin-block-end: var(--tint-size-2)
     .shrinkwrap
       display: flex
       align-items: center
-      gap: tint.$size-16
+      gap: var(--tint-size-16)
       flex-wrap: wrap
 
   .user-header
     display: flex
     align-items: center
-    gap: tint.$size-16
-    border-radius: tint.$card-radius
+    gap: var(--tint-size-16)
+    border-radius: var(--tint-radius-card)
 
   .user-details
     display: flex
     flex-direction: column
-    gap: tint.$size-4
+    gap: var(--tint-size-4)
     flex-grow: 1
     > span
       overflow: hidden
@@ -120,8 +120,8 @@ try {
 
   .badge
     color: var(--tint-text-secondary)
-    border-radius: tint.$size-64
+    border-radius: var(--tint-size-64)
     border: 1px solid
-    padding-inline: tint.$size-8
-    padding-block: tint.$size-4
+    padding-inline: var(--tint-size-8)
+    padding-block: var(--tint-size-4)
 </style>

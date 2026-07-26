@@ -61,7 +61,7 @@
 <style lang="sass">
   a
     text-decoration: none
-    border-radius: tint.$size-12
+    border-radius: var(--tint-size-12)
     @include tint.effect-focus()
     &:hover
       text-decoration: underline
@@ -77,14 +77,14 @@
     color: var(--tint-text-secondary)
     font-weight: 600
   .x16
-    width: tint.$size-16
-    height: tint.$size-16
+    width: var(--tint-size-16)
+    height: var(--tint-size-16)
   .x32
-    width: tint.$size-32
-    height: tint.$size-32
+    width: var(--tint-size-32)
+    height: var(--tint-size-32)
   .x64
-    width: tint.$size-64
-    height: tint.$size-64
+    width: var(--tint-size-64)
+    height: var(--tint-size-64)
   .x128
     width: 128px
     height: 128px

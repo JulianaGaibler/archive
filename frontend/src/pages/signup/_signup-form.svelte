@@ -184,7 +184,7 @@
 form
   display: flex
   flex-direction: column
-  gap: tint.$size-12
+  gap: var(--tint-size-12)
   :global(.error)
     width: 100%
     box-sizing: border-box

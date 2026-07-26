@@ -49,9 +49,9 @@
     align-items: center
     justify-content: space-between
     flex-wrap: wrap
-    gap: tint.$size-12
+    gap: var(--tint-size-12)
 
   .action-buttons
     display: flex
-    gap: tint.$size-8
+    gap: var(--tint-size-8)
 </style>

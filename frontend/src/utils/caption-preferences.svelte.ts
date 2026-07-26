@@ -2,11 +2,7 @@ import { createLocalStore } from './local-storage.svelte'
 
 export type CaptionFontFamily = 'sans-serif' | 'serif' | 'monospace'
 export type CaptionFontSize =
-  | 'smaller'
-  | 'small'
-  | 'default'
-  | 'large'
-  | 'larger'
+  'smaller' | 'small' | 'default' | 'large' | 'larger'
 export type CaptionBackground = 'dark' | 'darker' | 'solid'
 
 export interface CaptionPreferences {

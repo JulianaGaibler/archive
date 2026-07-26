@@ -11,11 +11,6 @@ import { FileUpload } from 'graphql-upload/processRequest.mjs';
 import { Context } from '@src/server.js';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
-export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
@@ -974,7 +969,10 @@ export type TemplateArea = {
   id: Scalars['String']['output'];
   overflow: Scalars['String']['output'];
   rotation: Scalars['Float']['output'];
+  strokeColor?: Maybe<Scalars['String']['output']>;
+  strokeWidth?: Maybe<Scalars['Int']['output']>;
   textColor: Scalars['String']['output'];
+  uppercase?: Maybe<Scalars['Boolean']['output']>;
   width: Scalars['Float']['output'];
   x: Scalars['Float']['output'];
   y: Scalars['Float']['output'];
@@ -991,7 +989,10 @@ export type TemplateAreaInput = {
   id: Scalars['String']['input'];
   overflow: Scalars['String']['input'];
   rotation: Scalars['Float']['input'];
+  strokeColor?: InputMaybe<Scalars['String']['input']>;
+  strokeWidth?: InputMaybe<Scalars['Int']['input']>;
   textColor: Scalars['String']['input'];
+  uppercase?: InputMaybe<Scalars['Boolean']['input']>;
   width: Scalars['Float']['input'];
   x: Scalars['Float']['input'];
   y: Scalars['Float']['input'];
@@ -1680,7 +1681,10 @@ export type TemplateAreaResolvers<ContextType = Context, ParentType extends Reso
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   overflow?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   rotation?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  strokeColor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  strokeWidth?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   textColor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  uppercase?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   width?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   x?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   y?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;

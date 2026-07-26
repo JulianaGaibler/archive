@@ -486,20 +486,20 @@
 <style lang="sass">
 .head
   background: var(--tint-bg)
-  padding-block: tint.$size-32
+  padding-block: var(--tint-size-32)
   position: relative
   .global-error
-    margin-block-end: tint.$size-16
+    margin-block-end: var(--tint-size-16)
     .validation-errors
       color: var(--tint-text-secondary)
-      padding-block-start: tint.$size-4
-      padding-inline-start: tint.$size-32
+      padding-block-start: var(--tint-size-4)
+      padding-inline-start: var(--tint-size-32)
   .title
     word-break: break-word
   .split
     display: flex
     align-items: flex-start
-    gap: tint.$size-12
+    gap: var(--tint-size-12)
     @media (max-width: tint.$breakpoint-md)
       flex-direction: column
       align-items: stretch
@@ -507,17 +507,17 @@
       flex-grow: 1
     .actions
       display: flex
-      gap: tint.$size-8
+      gap: var(--tint-size-8)
       justify-content: flex-end
   &::before
     content: ""
-    inset: 0 0 (tint.$size-64 * -2)
+    inset: 0 0 calc(var(--tint-size-64) * -2)
     position: absolute
     background: var(--tint-bg)
     z-index: -1
   
   ul.info, ul.tags
-    margin-block-start: tint.$size-16
+    margin-block-start: var(--tint-size-16)
     flex-wrap: wrap
 
   ul.info
@@ -527,15 +527,15 @@
   ul.tags
     list-style: none
     display: flex
-    gap: tint.$size-8
+    gap: var(--tint-size-8)
     a
-      border-radius: tint.$button-radius-small
+      border-radius: var(--tint-radius-button-pill)
       border: 1px solid
       text-decoration: none
-      height: tint.$size-24
+      height: var(--tint-size-24)
       display: inline-flex
       align-items: center
-      padding-inline: tint.$size-8
+      padding-inline: var(--tint-size-8)
       line-height: 1
       @include tint.effect-focus()
 
@@ -543,10 +543,10 @@
   .edit
     display: flex
     flex-direction: column
-    gap: tint.$size-8
+    gap: var(--tint-size-8)
     .info
       display: flex
-      gap: tint.$size-8
+      gap: var(--tint-size-8)
       :global(> *)
         &:last-child
           min-width: 10em
@@ -556,9 +556,9 @@
     position: absolute
     content: ''
     box-sizing: border-box
-    inset: tint.$size-8
+    inset: var(--tint-size-8)
     display: block
-    border-radius: tint.$size-4
+    border-radius: var(--tint-size-4)
     color: var(--tint-text-secondary)
     border: 2px dashed
     pointer-events: none
@@ -568,11 +568,11 @@
   position: relative
   border: 1px solid transparent
   background: var(--tint-input-bg)
-  border-radius: tint.$size-8
-  padding: tint.$size-16
-  min-height: tint.$size-64 * 3
+  border-radius: var(--tint-size-8)
+  padding: var(--tint-size-16)
+  min-height: calc(var(--tint-size-64) * 3)
   display: flex
-  gap: tint.$size-8
+  gap: var(--tint-size-8)
   width: 100%
   box-sizing: border-box
   flex-direction: column
@@ -600,27 +600,27 @@
   justify-content: center
   align-items: center
   &::before
-    border-radius: tint.$size-8
-    inset: tint.$size-16
+    border-radius: var(--tint-size-8)
+    inset: var(--tint-size-16)
   > div
-    padding: tint.$size-32
-    gap: tint.$size-24
+    padding: var(--tint-size-32)
+    gap: var(--tint-size-24)
     display: flex
     flex-direction: column
     align-items: center
     :global(svg)
       color: var(--tint-text-secondary)
-      width: tint.$size-64
-      height: tint.$size-64
+      width: var(--tint-size-64)
+      height: var(--tint-size-64)
   &.show
     visibility: initial
 
 .loading-container
   display: flex
   flex-direction: column
-  gap: tint.$size-16
+  gap: var(--tint-size-16)
   justify-content: center
   align-items: center
-  padding-inline: tint.$size-32
+  padding-inline: var(--tint-size-32)
   min-height: 116px
 </style>

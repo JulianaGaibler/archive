@@ -198,7 +198,7 @@
   margin-inline: auto
   display: flex
   flex-direction: column
-  padding: tint.$size-32
+  padding: var(--tint-size-32)
 
   h2
     margin: 0
@@ -209,7 +209,7 @@
 
 .actions
   display: flex
-  gap: tint.$size-12
+  gap: var(--tint-size-12)
   justify-content: flex-end
   border-block-start: 1px solid var(--tint-border)
 
@@ -217,6 +217,6 @@
 .form-section
   display: flex
   flex-direction: column
-  gap: tint.$size-16
-  margin-block: tint.$size-24
+  gap: var(--tint-size-16)
+  margin-block: var(--tint-size-24)
 </style>

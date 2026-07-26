@@ -2,6 +2,16 @@
 # Labels: [Added], [Fixed], [Improved], [Removed], [Deprecated], [Security]
 # The `deploy` section is only shown in GitHub releases, not in the app.
 
+2.4.2:
+  date: '2026-07-26'
+  changes:
+    - '[Added] New fonts in the template editor: Anton, Comic Neue, and Jost'
+    - '[Added] Text outlines for template text, with adjustable thickness and color'
+    - '[Improved] Template editor now uses custom color picker'
+    - '[Fixed] Very long words in template text now wrap instead of overflowing their area'
+  deploy:
+    - 'Bundles three self-hosted fonts under `frontend/public/fonts` (SIL OFL 1.1); they ship with the frontend build, no action required'
+    - 'GraphQL schema gained optional template fields (`strokeWidth`, `strokeColor`, `uppercase`); backward compatible, no database migration'
 2.4.1:
   date: '2026-03-10'
   changes:

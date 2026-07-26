@@ -323,9 +323,9 @@
     color-mix(in srgb, var(--tint-text-accent) 10%, transparent) 0%,
     transparent 100%
   )
-  border-radius: tint.$size-24
+  border-radius: var(--tint-size-24)
   overflow: hidden
-  padding: tint.$size-24
+  padding: var(--tint-size-24)
   min-height: 120px
 
 audio
@@ -336,17 +336,17 @@ noscript audio
 
 .waveform-container
   position: relative
-  height: tint.$size-80
+  height: var(--tint-size-80)
   cursor: pointer
   user-select: none
-  margin-block-end: tint.$size-16
+  margin-block-end: var(--tint-size-16)
 
 .waveform
   display: flex
   align-items: center
   justify-content: space-between
   height: 100%
-  gap: tint.$size-2
+  gap: var(--tint-size-2)
   @media (max-width: tint.$breakpoint-sm)
     gap: 0
 
@@ -355,10 +355,10 @@ noscript audio
   background: color-mix(in srgb, var(--tint-text-accent) 20%, transparent)
   border-radius: 1px
   height: var(--bar-height)
-  min-height: tint.$size-8
+  min-height: var(--tint-size-8)
   transition: background-color 0.2s ease, opacity 0.2s ease
   opacity: 0.6
-  border-radius: tint.$size-80
+  border-radius: var(--tint-size-80)
   min-width: 2px
   @media (max-width: tint.$breakpoint-sm)
     min-width: none
@@ -378,7 +378,7 @@ noscript audio
   align-items: center
   justify-content: center
   color: var(--tint-text)
-  border-radius: tint.$size-8
+  border-radius: var(--tint-size-8)
 
 :global(.audio-player .tint-button)
   background: var(--tint-input-bg) !important

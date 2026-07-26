@@ -131,28 +131,28 @@
 
 .section
   width: 100%
-  padding-block: tint.$size-16
+  padding-block: var(--tint-size-16)
 
   &:last-child
-    padding-block-end: tint.$size-32
+    padding-block-end: var(--tint-size-32)
 
 .container
   box-sizing: border-box
   max-width: 600px
   margin-inline: auto
-  padding-inline: tint.$size-32
+  padding-inline: var(--tint-size-32)
 
 .reorder-list
   list-style: none
   margin-block: 0
-  padding-block: tint.$size-2
+  padding-block: var(--tint-size-2)
   border: 1px solid var(--tint-card-border)
   display: flex
   flex-direction: column
   flex: 1
   overflow-y: auto
   max-height: 50vh
-  border-radius: tint.$size-8
+  border-radius: var(--tint-size-8)
 
 .reorder-item
   border: 1px solid var(--tint-border)
@@ -169,13 +169,13 @@
 .item-content
   display: flex
   align-items: center
-  gap: tint.$size-12
-  padding: tint.$size-12
+  gap: var(--tint-size-12)
+  padding: var(--tint-size-12)
 
 .thumbnail
-  width: tint.$size-80
-  height: calc(tint.$size-80 * 9 / 16)
-  border-radius: tint.$size-4
+  width: var(--tint-size-80)
+  height: calc(var(--tint-size-80) * 9 / 16)
+  border-radius: var(--tint-size-4)
   overflow: hidden
   flex-shrink: 0
   display: flex
@@ -190,12 +190,12 @@
   &.audio
     display: flex
     align-items: center
-    gap: tint.$size-4
-    padding: tint.$size-8
+    gap: var(--tint-size-4)
+    padding: var(--tint-size-8)
     span
       display: block
-      width: tint.$size-4
-      border-radius: tint.$size-8
+      width: var(--tint-size-4)
+      border-radius: var(--tint-size-8)
       background: var(--tint-text-accent)
       &:nth-child(1)
         height: 50%

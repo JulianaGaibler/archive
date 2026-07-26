@@ -48,9 +48,9 @@
 <style lang="sass">
 .caption-overlay
   position: absolute
-  left: 0
-  right: 0
-  bottom: 12px
+  inset-inline-start: 0
+  inset-inline-end: 0
+  inset-block-end: 12px
   display: flex
   flex-direction: column
   align-items: center
@@ -63,30 +63,31 @@
     transform: translateY(calc(-1 * var(--controls-height, 0px)))
 
   &.placement-top
-    top: 12px
-    bottom: auto
+    inset-block-start: 12px
+    inset-block-end: auto
 
   &.placement-left
-    left: 12px
-    right: auto
+    inset-inline-start: 12px
+    inset-inline-end: auto
     align-items: flex-start
     max-width: 40%
 
   &.placement-right
-    right: 12px
-    left: auto
+    inset-inline-end: 12px
+    inset-inline-start: auto
     align-items: flex-end
     max-width: 40%
 
 .caption-voice
   font-weight: bold
-  margin-right: 0.3em
+  margin-inline-end: 0.3em
 
 .caption-line
   display: inline-block
   background: var(--caption-bg, rgba(0, 0, 0, 0.7))
   color: white
-  padding: 2px 8px
+  padding-block: 2px
+  padding-inline: 8px
   font-family: var(--caption-font-family, sans-serif)
   font-size: var(--caption-font-size, 1rem)
   line-height: 1.4

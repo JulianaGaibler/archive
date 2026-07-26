@@ -7,13 +7,18 @@
   import {
     renderTextInArea,
     renderPlaceholderInArea,
-    waitForFonts,
   } from './TemplateApply/utils/text-renderer'
   import {
     renderTemplateToCanvas,
     downloadAsImage,
     copyToClipboard,
   } from './TemplateApply/utils/export'
+  import {
+    resolveFontFamily,
+    fontWeightFor,
+    outlineLineWidth,
+    ensureAreaFontsLoaded,
+  } from '@src/utils/template-text-layout'
 
   interface Props {
     template: TemplateConfig
@@ -32,6 +37,7 @@
   let exporting = $state(false)
   let editingArea: number | null = $state(null)
   let textareaEls: HTMLTextAreaElement[] = $state([])
+  let fontsReady = $state(false)
 
   // Load image
   $effect(() => {
@@ -41,6 +47,18 @@
       img = image
     }
     image.src = imageSrc
+  })
+
+  // Repaint the canvas once the self-hosted fonts finish loading, otherwise the
+  // first paint uses a fallback font until the user interacts.
+  $effect(() => {
+    let cancelled = false
+    ensureAreaFontsLoaded(template.areas).then(() => {
+      if (!cancelled) fontsReady = true
+    })
+    return () => {
+      cancelled = true
+    }
   })
 
   // Observe container size and compute display dimensions
@@ -73,6 +91,7 @@
     if (!canvasEl || !img || displayWidth === 0) return
     void texts
     void editingArea
+    void fontsReady
 
     const dpr = window.devicePixelRatio || 1
     canvasEl.width = displayWidth * dpr
@@ -112,7 +131,6 @@
     if (!img) return
     exporting = true
     try {
-      await waitForFonts()
       const canvas = await renderTemplateToCanvas(img, template, texts)
       await downloadAsImage(canvas, `${filename}.png`)
     } finally {
@@ -124,7 +142,6 @@
     if (!img) return
     exporting = true
     try {
-      await waitForFonts()
       const canvas = await renderTemplateToCanvas(img, template, texts)
       await copyToClipboard(canvas)
     } finally {
@@ -134,10 +151,6 @@
 
   let scaleX = $derived(img ? displayWidth / img.naturalWidth : 1)
   let scaleY = $derived(img ? displayHeight / img.naturalHeight : 1)
-
-  function areaFontFamily(font: string): string {
-    return font === 'Serif' ? 'Merriweather, serif' : 'HK Grotesk, sans-serif'
-  }
 
   function areaTextAlign(alignH: string): string {
     return alignH === 'start' ? 'left' : alignH === 'end' ? 'right' : 'center'
@@ -163,6 +176,10 @@
         {@const padding = Math.min(width, height) * 0.05}
         {@const isEditing = editingArea === i}
         {@const bgAlpha = area.backplateOpacity / 100}
+        {@const strokePx = outlineLineWidth(
+          area.fontSize * scaleX,
+          area.strokeWidth,
+        )}
         <textarea
           class="area-input"
           class:editing={isEditing}
@@ -173,14 +190,19 @@
             height: {height}px;
             transform: rotate({rotation}deg);
             transform-origin: center center;
-            font-family: {areaFontFamily(area.font)};
+            font-family: {resolveFontFamily(area.font)};
             font-size: {area.fontSize * scaleX}px;
-            font-weight: bold;
+            font-weight: {fontWeightFor(area.font)};
+            text-transform: {area.uppercase ? 'uppercase' : 'none'};
             color: {isEditing ? area.textColor : 'transparent'};
             caret-color: {isEditing ? area.textColor : 'transparent'};
             text-align: {areaTextAlign(area.alignH)};
             line-height: 1.2;
             padding: {padding}px;
+            -webkit-text-stroke: {isEditing && strokePx > 0
+            ? `${strokePx}px ${area.strokeColor ?? '#000000'}`
+            : '0'};
+            paint-order: stroke fill;
             background: {isEditing && bgAlpha > 0
             ? area.backplateColor
             : 'transparent'};
@@ -189,8 +211,7 @@
           bind:this={textareaEls[i]}
           bind:value={texts[i]}
           onfocus={() => (editingArea = i)}
-          onblur={() => (editingArea = null)}
-        ></textarea>
+          onblur={() => (editingArea = null)}></textarea>
       {/each}
     </div>
 
@@ -262,14 +283,14 @@
 
   .export-actions
     position: absolute
-    bottom: tint.$size-16
-    left: 50%
+    inset-block-end: var(--tint-size-16)
+    inset-inline-start: 50%
     transform: translateX(-50%)
-    padding: tint.$size-8
-    border-radius: tint.$size-48
+    padding: var(--tint-size-8)
+    border-radius: var(--tint-size-48)
     background-color: color-mix(in srgb, var(--tint-bg) 80%, transparent)
     backdrop-filter: blur(8px) saturate(120%)
     z-index: 3
     display: flex
-    gap: tint.$size-8
+    gap: var(--tint-size-8)
 </style>

@@ -204,21 +204,21 @@
   .loading-container
     display: flex
     flex-direction: column
-    gap: tint.$size-16
+    gap: var(--tint-size-16)
     justify-content: center
     align-items: center
-    padding-block: tint.$size-32
+    padding-block: var(--tint-size-32)
 
   .already-linked, .linking-step, .confirm-linking
     display: flex
     flex-direction: column
-    gap: tint.$size-16
+    gap: var(--tint-size-16)
     align-items: center
     text-align: center
 
   .info-container
     display: grid
-    gap: tint.$size-12
+    gap: var(--tint-size-12)
     // container hearth container
     grid-template-columns: 1fr auto 1fr
     align-items: center
@@ -230,46 +230,46 @@
   .user-info
     display: flex
     align-items: center
-    gap: tint.$size-16
-    padding: tint.$size-24
-    border-radius: tint.$card-radius
+    gap: var(--tint-size-16)
+    padding: var(--tint-size-24)
+    border-radius: var(--tint-radius-card)
     background: var(--tint-bg)
     text-align: start
     .profile-photo
-      width: tint.$size-64
-      height: tint.$size-64
+      width: var(--tint-size-64)
+      height: var(--tint-size-64)
       border-radius: 50%
       object-fit: cover
     .user-details
       h4
         margin: 0
-        margin-block-end: tint.$size-4
+        margin-block-end: var(--tint-size-4)
         font-weight: 600
       .username
         margin: 0
-        margin-block-end: tint.$size-4
+        margin-block-end: var(--tint-size-4)
         color: var(--tint-text-secondary)
         font-size: 0.9em
 
   .actions
     display: flex
-    gap: tint.$size-12
+    gap: var(--tint-size-12)
     flex-wrap: wrap
     justify-content: center
 
   .info
     border: 1px solid var(--tint-card-border)
     text-align: start
-    padding: tint.$size-32
-    border-radius: tint.$card-radius
+    padding: var(--tint-size-32)
+    border-radius: var(--tint-radius-card)
     max-width: 600px
     margin-block: 0
     margin-inline: auto
-    margin-block-start: tint.$size-32
+    margin-block-start: var(--tint-size-32)
     h3
-      margin-block-end: tint.$size-8
+      margin-block-end: var(--tint-size-8)
     p:not(:last-of-type)
-      margin-block-end: tint.$size-32
+      margin-block-end: var(--tint-size-32)
 
   .note
     color: var(--tint-text-secondary)

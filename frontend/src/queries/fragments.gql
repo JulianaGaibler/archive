@@ -84,6 +84,9 @@ fragment ItemData on Item {
             font
             fontSize
             textColor
+            strokeWidth
+            strokeColor
+            uppercase
             backplateOpacity
             backplateColor
           }

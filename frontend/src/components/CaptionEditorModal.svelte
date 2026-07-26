@@ -596,16 +596,16 @@
 
 .section
   width: 100%
-  padding-block: tint.$size-16
+  padding-block: var(--tint-size-16)
 
   &:last-child
-    padding-block-end: tint.$size-32
+    padding-block-end: var(--tint-size-32)
 
 .container
   box-sizing: border-box
   max-width: 900px
   margin-inline: auto
-  padding-inline: tint.$size-32
+  padding-inline: var(--tint-size-32)
 
 .preview-area
   width: 100%
@@ -621,7 +621,7 @@
   box-sizing: border-box
   margin-inline: auto
   max-width: 100%
-  padding: tint.$size-16
+  padding: var(--tint-size-16)
 
 .video-inner
   position: relative
@@ -641,12 +641,12 @@
   flex-direction: column
   align-items: center
   justify-content: center
-  gap: tint.$size-8
+  gap: var(--tint-size-8)
   min-height: 200px
   color: var(--tint-text-secondary)
 
 .audio-caption-preview
-  padding: tint.$size-16
+  padding: var(--tint-size-16)
   text-align: center
   color: var(--tint-text-secondary)
   font-style: italic
@@ -654,21 +654,22 @@
 .editor-controls
   display: flex
   flex-direction: column
-  gap: tint.$size-16
+  gap: var(--tint-size-16)
 
 .options
-  margin-block-start: tint.$size-32
+  margin-block-start: var(--tint-size-32)
 
 .keymap
-  margin-block-start: tint.$size-32
+  margin-block-start: var(--tint-size-32)
   display: grid
   grid-template-columns: repeat(auto-fill, minmax(128px, 1fr))
-  gap: tint.$size-4 tint.$size-16
+  gap: var(--tint-size-4) var(--tint-size-16)
   color: var(--tint-text-secondary)
 
   kbd
     display: inline-block
-    padding: tint.$size-2 tint.$size-4
+    padding-block: var(--tint-size-2)
+    padding-inline: var(--tint-size-4)
     background: var(--tint-input-bg)
     border-radius: 4px
     font-family: inherit
@@ -686,6 +687,6 @@
   margin: 0
   font-style: italic
   text-align: center
-  padding-block-start: tint.$size-8
+  padding-block-start: var(--tint-size-8)
 
 </style>

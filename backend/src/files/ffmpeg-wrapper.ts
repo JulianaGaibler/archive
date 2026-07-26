@@ -761,16 +761,14 @@ export class FFmpegWrapper {
     } catch (error) {
       // Silent/near-silent audio produces NaN measurements — skip loudnorm
       // and fall back to encoding without normalization (audio is silent anyway)
-      if (
-        error instanceof Error &&
-        error.message?.includes('SILENT_AUDIO')
-      ) {
+      if (error instanceof Error && error.message?.includes('SILENT_AUDIO')) {
         console.warn(
           'Audio is silent or near-silent, skipping loudnorm normalization',
         )
 
         const fallbackOutputOptions: string[] = []
-        const fallbackAudioFilter = 'aresample=async=1:first_pts=0,asetpts=PTS-STARTPTS'
+        const fallbackAudioFilter =
+          'aresample=async=1:first_pts=0,asetpts=PTS-STARTPTS'
 
         let filterComplex: string | undefined
         if (options.videoFilters && options.videoFilters.length > 0) {

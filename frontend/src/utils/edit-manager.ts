@@ -148,8 +148,7 @@ export function createEditManager(
             console.error('[Subscription] Errors:', result.errors)
           }
           const subscriptionData = result.data as
-            | FileProcessingUpdatesSubscription
-            | undefined
+            FileProcessingUpdatesSubscription | undefined
 
           if (subscriptionData?.fileProcessingUpdates?.file) {
             const updatedFile = subscriptionData.fileProcessingUpdates.file
@@ -1763,27 +1762,23 @@ export type SerializedEditDataWithValidation = {
 export function serializeEditData(data: PostUpdate): SerializedEditData {
   const existingItems = Object.values(data.items)
     .filter((item): item is ExistingItem => item.type === 'existing')
-    .map(
-      (item): SerializedEditItem => ({
-        id: item.id,
-        description: item.description.value,
-        caption: item.caption?.value,
-      }),
-    )
+    .map((item): SerializedEditItem => ({
+      id: item.id,
+      description: item.description.value,
+      caption: item.caption?.value,
+    }))
 
   const uploadItems = Object.values(data.items)
     .filter(
       (item): item is UploadItem => item.type === 'upload' && !!item.fileId,
     )
-    .map(
-      (item): SerializedUploadItem => ({
-        fileId: item.fileId!,
-        description: item.description.value,
-        caption: item.caption?.value,
-        keywords: item.keywords.value,
-        language: item.language.value,
-      }),
-    )
+    .map((item): SerializedUploadItem => ({
+      fileId: item.fileId!,
+      description: item.description.value,
+      caption: item.caption?.value,
+      keywords: item.keywords.value,
+      language: item.language.value,
+    }))
 
   return {
     title: data.title.value,
@@ -1863,27 +1858,23 @@ export function serializeEditDataWithValidation(
 ): SerializedEditDataWithValidation {
   const items = Object.values(data.items)
     .filter((item): item is ExistingItem => item.type === 'existing')
-    .map(
-      (item): SerializedEditItemWithValidation => ({
-        id: createUpdateValue(item.id),
-        description: item.description,
-        caption: item.caption,
-      }),
-    )
+    .map((item): SerializedEditItemWithValidation => ({
+      id: createUpdateValue(item.id),
+      description: item.description,
+      caption: item.caption,
+    }))
 
   const newItems = Object.values(data.items)
     .filter(
       (item): item is UploadItem => item.type === 'upload' && !!item.fileId,
     )
-    .map(
-      (item): SerializedUploadItemWithValidation => ({
-        fileId: createUpdateValue(item.fileId!),
-        description: item.description,
-        caption: item.caption,
-        keywords: item.keywords,
-        language: item.language,
-      }),
-    )
+    .map((item): SerializedUploadItemWithValidation => ({
+      fileId: createUpdateValue(item.fileId!),
+      description: item.description,
+      caption: item.caption,
+      keywords: item.keywords,
+      language: item.language,
+    }))
 
   return {
     title: data.title,

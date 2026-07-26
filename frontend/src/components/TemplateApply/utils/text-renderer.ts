@@ -1,5 +1,15 @@
 import type { TemplateArea } from 'archive-shared/src/templates'
-import { layoutText } from '@src/utils/template-text-layout'
+import {
+  layoutText,
+  paintTextLines,
+  resolveFontFamily,
+  transformText,
+  outlineLineWidth,
+} from '@src/utils/template-text-layout'
+
+function areaTextAlign(alignH: string): CanvasTextAlign {
+  return alignH === 'start' ? 'left' : alignH === 'end' ? 'right' : 'center'
+}
 
 export function renderTextInArea(
   ctx: CanvasRenderingContext2D,
@@ -34,26 +44,20 @@ export function renderTextInArea(
     ctx.globalAlpha = 1
   }
 
-  const layout = layoutText(ctx, area, text, w, h)
+  const layout = layoutText(
+    ctx,
+    area,
+    transformText(text, area.uppercase),
+    w,
+    h,
+  )
 
-  const textAlign =
-    area.alignH === 'start'
-      ? 'left'
-      : area.alignH === 'end'
-        ? 'right'
-        : 'center'
-  ctx.textAlign = textAlign
-  ctx.textBaseline = 'top'
-  ctx.fillStyle = area.textColor
-  ctx.letterSpacing = `${layout.letterSpacing}px`
-
-  for (let i = 0; i < layout.lines.length; i++) {
-    ctx.fillText(
-      layout.lines[i],
-      layout.startX,
-      layout.startY + i * layout.lineHeight,
-    )
-  }
+  ctx.textAlign = areaTextAlign(area.alignH)
+  paintTextLines(ctx, layout, {
+    fillStyle: area.textColor,
+    strokeStyle: area.strokeColor ?? '#000000',
+    strokeLineWidth: outlineLineWidth(layout.fontSize, area.strokeWidth),
+  })
 
   ctx.restore()
 }
@@ -87,38 +91,14 @@ export function renderPlaceholderInArea(
   ctx.setLineDash([])
 
   // Use same layout logic as real text
-  const placeholderText = `Text ${index + 1}`
+  const placeholderText = transformText(`Text ${index + 1}`, area.uppercase)
   const layout = layoutText(ctx, area, placeholderText, w, h)
 
   // Override font to italic normal-weight for placeholder appearance
-  const fontFamily =
-    area.font === 'Serif' ? 'Merriweather, serif' : 'HK Grotesk, sans-serif'
-  ctx.font = `italic ${layout.fontSize}px ${fontFamily}`
+  ctx.font = `italic ${layout.fontSize}px ${resolveFontFamily(area.font)}`
 
-  const textAlign =
-    area.alignH === 'start'
-      ? 'left'
-      : area.alignH === 'end'
-        ? 'right'
-        : 'center'
-  ctx.textAlign = textAlign
-  ctx.textBaseline = 'top'
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.4)'
-  ctx.letterSpacing = `${layout.letterSpacing}px`
-
-  for (let i = 0; i < layout.lines.length; i++) {
-    ctx.fillText(
-      layout.lines[i],
-      layout.startX,
-      layout.startY + i * layout.lineHeight,
-    )
-  }
+  ctx.textAlign = areaTextAlign(area.alignH)
+  paintTextLines(ctx, layout, { fillStyle: 'rgba(255, 255, 255, 0.4)' })
 
   ctx.restore()
-}
-
-export async function waitForFonts(): Promise<void> {
-  if (typeof document !== 'undefined' && document.fonts) {
-    await document.fonts.ready
-  }
 }

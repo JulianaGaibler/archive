@@ -1,12 +1,15 @@
 import type { TemplateConfig } from 'archive-shared/src/templates'
-import { renderTextInArea, waitForFonts } from './text-renderer'
+import { renderTextInArea } from './text-renderer'
+import { ensureAreaFontsLoaded } from '@src/utils/template-text-layout'
 
 export async function renderTemplateToCanvas(
   image: HTMLImageElement,
   template: TemplateConfig,
   texts: string[],
 ): Promise<HTMLCanvasElement> {
-  await waitForFonts()
+  // Make sure the self-hosted fonts are loaded before drawing, otherwise the
+  // export silently falls back to a system font.
+  await ensureAreaFontsLoaded(template.areas)
 
   const canvas = document.createElement('canvas')
   canvas.width = image.naturalWidth

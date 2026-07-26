@@ -1070,9 +1070,8 @@ export default class FileProcessor {
       )
 
       // Check for audio stream presence
-      const hasAudio = metadata?.streams?.some(
-        (s) => s.codec_type === 'audio',
-      ) ?? false
+      const hasAudio =
+        metadata?.streams?.some((s) => s.codec_type === 'audio') ?? false
 
       return {
         duration: duration || 0,

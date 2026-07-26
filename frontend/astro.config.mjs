@@ -39,6 +39,13 @@ export default defineConfig({
     },
     ...(isDev && {
       optimizeDeps: {
+        // Vite 8's rolldown dependency scanner cannot resolve relative
+        // `.svelte` imports between components inside a Svelte library
+        // (node_modules) — it wraps each as `virtual-module:…?id=N` and fails
+        // to resolve the sibling `.svelte`. That crashes the scan. Skipping
+        // auto-discovery avoids it; CJS deps that need pre-bundling are listed
+        // in `include`. Track upstream: rolldown/vite-plugin-svelte.
+        noDiscovery: true,
         exclude: ['tint'],
         include: ['remove-accents'],
       },
@@ -74,6 +81,7 @@ export default defineConfig({
           '/CaptionEditorModal/',
           '/FileAdjustModal/',
           '/TemplateEditorModal/',
+          '/TemplateApply.svelte',
           '/ModalHeader.svelte',
           '/CaptionOverlay.svelte',
         ]

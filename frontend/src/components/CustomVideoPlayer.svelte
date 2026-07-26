@@ -946,20 +946,20 @@ video, .static-player
   opacity: 0
   transition: opacity 0.2s ease
   pointer-events: none
-  padding: tint.$size-12
+  padding: var(--tint-size-12)
   position: absolute
-  left: 0
-  right: 0
-  bottom: 0
+  inset-inline-start: 0
+  inset-inline-end: 0
+  inset-block-end: 0
   &.visible
     opacity: 1
     pointer-events: auto
   &::before
     content: ''
     position: absolute
-    left: 0
-    right: 0
-    bottom: 0
+    inset-inline-start: 0
+    inset-inline-end: 0
+    inset-block-end: 0
     height: 128px
     background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent)
 

@@ -106,16 +106,16 @@
   .content
     display: flex
     flex-direction: column
-    gap: tint.$size-8
+    gap: var(--tint-size-8)
 
   .connected-status,
   .disconnected-status
     display: flex
     flex-direction: column
-    gap: tint.$size-8
+    gap: var(--tint-size-8)
 
   .actions
     display: flex
-    gap: tint.$size-12
+    gap: var(--tint-size-12)
     justify-content: center
 </style>

@@ -452,7 +452,7 @@
   .description
     color: var(--tint-text-secondary)
     margin: 0
-    margin-block-start: calc(-1 * tint.$size-8)
+    margin-block-start: calc(-1 * var(--tint-size-8))
 
   .warning
     font-weight: 600
@@ -460,7 +460,7 @@
 
   .actions
     display: flex
-    gap: tint.$size-12
+    gap: var(--tint-size-12)
     justify-content: center
     flex-wrap: wrap
 
@@ -471,34 +471,35 @@
   .qr-code
     width: 200px
     height: 200px
-    border-radius: tint.$size-8
+    border-radius: var(--tint-size-8)
     background: white
-    padding: tint.$size-8
+    padding: var(--tint-size-8)
 
   .secret-display
     display: flex
     flex-direction: column
-    gap: tint.$size-4
+    gap: var(--tint-size-4)
 
   .secret-text
     font-family: monospace
     font-size: 0.85em
     word-break: break-all
     background: var(--tint-bg-secondary, var(--tint-bg))
-    padding: tint.$size-8
-    border-radius: tint.$size-4
+    padding: var(--tint-size-8)
+    border-radius: var(--tint-size-4)
 
   .recovery-codes
     display: grid
     grid-template-columns: repeat(2, 1fr)
-    gap: tint.$size-4
+    gap: var(--tint-size-4)
 
   .recovery-code
     font-family: monospace
     font-size: 0.9em
-    padding: tint.$size-4 tint.$size-8
+    padding-block: var(--tint-size-4)
+    padding-inline: var(--tint-size-8)
     background: var(--tint-bg-secondary, var(--tint-bg))
-    border-radius: tint.$size-4
+    border-radius: var(--tint-size-4)
     text-align: center
 
   form
@@ -506,11 +507,11 @@
     display: flex
     flex-direction: column
     align-items: stretch
-    gap: tint.$size-8
+    gap: var(--tint-size-8)
 
   .form-actions
     display: flex
-    gap: tint.$size-12
+    gap: var(--tint-size-12)
     justify-content: center
     align-items: center
     flex-wrap: wrap

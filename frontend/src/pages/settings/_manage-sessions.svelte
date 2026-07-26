@@ -112,7 +112,7 @@ ul
   display: flex
   flex-direction: column
   border: 1px solid var(--tint-input-bg)
-  border-radius: tint.$size-12
+  border-radius: var(--tint-size-12)
   list-style: none
   margin: 0
   padding: 0
@@ -125,13 +125,14 @@ li
   display: flex
   align-items: center
   justify-content: space-between
-  gap: tint.$size-12
-  padding: tint.$size-12 tint.$size-16
+  gap: var(--tint-size-12)
+  padding-block: var(--tint-size-12)
+  padding-inline: var(--tint-size-16)
 
 .session-info
   display: flex
   flex-direction: column
-  gap: tint.$size-2
+  gap: var(--tint-size-2)
   min-width: 0
 
 .device

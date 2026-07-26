@@ -114,8 +114,8 @@
 .container
   border: 1px solid var(--tint-card-border)
   color: var(--tint-text-accent)
-  border-radius: tint.$size-12
-  padding: tint.$size-16
+  border-radius: var(--tint-size-12)
+  padding: var(--tint-size-16)
   background: var(--tint-bg)
 .inner
   margin-block: 0
@@ -124,13 +124,13 @@
   flex-direction: column
   align-items: center
   justify-content: center
-  gap: tint.$size-12
+  gap: var(--tint-size-12)
   min-height: 128px
   > span
     text-align: center
   > :global(svg)
-    width: tint.$size-48
-    height: tint.$size-48
+    width: var(--tint-size-48)
+    height: var(--tint-size-48)
     fill: currentColor
 
 details
@@ -142,6 +142,6 @@ code
   white-space: pre-wrap
   background: #2222
   padding: 0.5em
-  border-radius: tint.$size-4
+  border-radius: var(--tint-size-4)
   margin-block-start: 0.5em
 </style>

@@ -116,7 +116,7 @@ form
   display: flex
   flex-direction: column
   align-items: stretch
-  gap: tint.$size-8
+  gap: var(--tint-size-8)
 
 form.update
   flex-grow: 1

@@ -1,6 +1,11 @@
 import type { TemplateArea } from 'archive-shared/src/templates'
 import { drawHandle } from '@src/components/FileAdjustModal/utils/canvas-drawing'
-import { layoutText } from '@src/utils/template-text-layout'
+import {
+  layoutText,
+  paintTextLines,
+  transformText,
+  outlineLineWidth,
+} from '@src/utils/template-text-layout'
 
 const HANDLE_SIZE = 8
 const ROTATION_HANDLE_OFFSET = 30
@@ -95,28 +100,25 @@ function drawPreviewText(
   if (area.fontSize * scaleX < 6) return
 
   const scaledArea = { ...area, fontSize: area.fontSize * scaleX }
-  const layout = layoutText(ctx, scaledArea, PREVIEW_TEXT, w, h)
+  const layout = layoutText(
+    ctx,
+    scaledArea,
+    transformText(PREVIEW_TEXT, area.uppercase),
+    w,
+    h,
+  )
 
-  const textAlign =
+  ctx.textAlign =
     area.alignH === 'start'
       ? 'left'
       : area.alignH === 'end'
         ? 'right'
         : 'center'
-  ctx.textAlign = textAlign
-  ctx.textBaseline = 'top'
-  ctx.fillStyle = area.textColor
-  ctx.letterSpacing = `${layout.letterSpacing}px`
-
-  for (let i = 0; i < layout.lines.length; i++) {
-    ctx.fillText(
-      layout.lines[i],
-      layout.startX,
-      layout.startY + i * layout.lineHeight,
-    )
-  }
-
-  ctx.letterSpacing = '0px'
+  paintTextLines(ctx, layout, {
+    fillStyle: area.textColor,
+    strokeStyle: area.strokeColor ?? '#000000',
+    strokeLineWidth: outlineLineWidth(layout.fontSize, area.strokeWidth),
+  })
 }
 
 export function getAreaHandleHit(

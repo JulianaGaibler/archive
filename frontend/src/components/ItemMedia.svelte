@@ -187,7 +187,7 @@
     background: var(--tint-bg)
   img, video
     max-width: 100%
-    min-height: tint.$size-80
+    min-height: var(--tint-size-80)
     max-height: 80vh
 
 .unsupported-file

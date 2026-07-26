@@ -314,7 +314,7 @@
     display: flex
     flex-direction: column
     border: 1px solid var(--tint-input-bg)
-    border-radius: tint.$size-12
+    border-radius: var(--tint-size-12)
     list-style: none
     margin: 0
     padding: 0
@@ -327,13 +327,14 @@
     display: flex
     align-items: center
     justify-content: space-between
-    gap: tint.$size-12
-    padding: tint.$size-12 tint.$size-16
+    gap: var(--tint-size-12)
+    padding-block: var(--tint-size-12)
+    padding-inline: var(--tint-size-16)
 
   .passkey-info
     display: flex
     flex-direction: column
-    gap: tint.$size-2
+    gap: var(--tint-size-2)
     min-width: 0
 
   .meta
@@ -347,22 +348,22 @@
 
   .actions
     display: flex
-    gap: tint.$size-4
+    gap: var(--tint-size-4)
 
   .add-action
     display: flex
-    gap: tint.$size-12
+    gap: var(--tint-size-12)
     justify-content: center
 
   .rename-modal
     display: flex
     flex-direction: column
-    gap: tint.$size-16
-    padding: tint.$size-24
+    gap: var(--tint-size-16)
+    padding: var(--tint-size-24)
     max-width: 448px
 
   .rename-modal-actions
     display: flex
-    gap: tint.$size-8
+    gap: var(--tint-size-8)
     justify-content: flex-end
 </style>

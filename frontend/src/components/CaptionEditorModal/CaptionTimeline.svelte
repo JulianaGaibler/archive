@@ -688,23 +688,23 @@
 .caption-timeline-wrapper
   display: flex
   flex-direction: column
-  gap: tint.$size-12
+  gap: var(--tint-size-12)
 
 .caption-timeline
   position: relative
-  height: tint.$size-64
+  height: var(--tint-size-64)
   background: transparent
-  border-radius: tint.$size-8
+  border-radius: var(--tint-size-8)
   user-select: none
   touch-action: none
 
 .timeline-canvas
   position: absolute
-  top: 0
-  left: 0
+  inset-block-start: 0
+  inset-inline-start: 0
   width: 100%
   height: 100%
-  border-radius: tint.$size-8
+  border-radius: var(--tint-size-8)
   touch-action: none
   z-index: 4
   pointer-events: auto

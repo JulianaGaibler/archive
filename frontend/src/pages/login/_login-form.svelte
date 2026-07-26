@@ -338,7 +338,7 @@
 form
   display: flex
   flex-direction: column
-  gap: tint.$size-12
+  gap: var(--tint-size-12)
   :global(.error)
     width: 100%
     box-sizing: border-box
@@ -347,7 +347,7 @@ form
   align-items: center
   justify-content: space-between
   width: 100%
-  gap: tint.$size-12
+  gap: var(--tint-size-12)
 .secondary-link
   color: var(--tint-text-secondary)
   text-decoration: none

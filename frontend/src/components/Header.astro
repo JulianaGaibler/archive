@@ -54,11 +54,11 @@ const { signedIn, me, error } = Astro.locals.me
     justify-content: space-between
     align-items: center
     height: 72px
-    padding-inline: tint.$size-24
+    padding-inline: var(--tint-size-24)
     background-color: var(--tint-bg)
     @media (max-width: tint.$breakpoint-md)
       position: sticky
-      top: 0
+      inset-block-start: 0
       z-index: 1000
       background-image: linear-gradient(var(--tint-bg),color-mix(in srgb, var(--tint-bg) 0%, transparent))
       transition: box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out
@@ -75,7 +75,7 @@ const { signedIn, me, error } = Astro.locals.me
       background-color: var(--tint-bg)
       backdrop-filter: none
       box-shadow: none
-      border-bottom: 1px solid var(--tint-card-border)
+      border-block-end: 1px solid var(--tint-card-border)
 
   a
     text-decoration: none
@@ -83,6 +83,6 @@ const { signedIn, me, error } = Astro.locals.me
       text-decoration: underline
   h1
     font-family: 'HK Grotesk', sans-serif
-    font-size: tint.$size-24
+    font-size: var(--tint-size-24)
     font-weight: 700
 </style>

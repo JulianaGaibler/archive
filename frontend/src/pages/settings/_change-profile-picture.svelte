@@ -65,7 +65,8 @@
     // Timeout
     processing = false
     loading = false
-    globalError = 'Profile picture processing is taking longer than expected. Please reload the page.'
+    globalError =
+      'Profile picture processing is taking longer than expected. Please reload the page.'
   }
 
   const tryChangePicture = async (e: Event) => {
@@ -181,7 +182,7 @@ form
   display: flex
   flex-direction: column
   align-items: stretch
-  gap: tint.$size-8
+  gap: var(--tint-size-8)
 
 form.pfp-set
   flex-grow: 1

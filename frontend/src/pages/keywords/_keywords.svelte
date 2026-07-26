@@ -95,35 +95,35 @@
 <style lang="sass">
   .nav
     background-color: var(--tint-bg)
-    padding-block: tint.$size-32
-    margin-block-end: tint.$size-12
+    padding-block: var(--tint-size-32)
+    margin-block-end: var(--tint-size-12)
     .shrinkwrap
       display: flex
       align-items: center
-      gap: tint.$size-32
+      gap: var(--tint-size-32)
       justify-content: space-between
       @media (max-width: tint.$breakpoint-sm)
         flex-direction: column
         align-items: flex-start
-        gap: tint.$size-12
+        gap: var(--tint-size-12)
 
   .search-results
     color: var(--tint-text-secondary)
-    margin-block: tint.$size-16
+    margin-block: var(--tint-size-16)
 
   .keywords-grid
     display: grid
     grid-template-columns: repeat(auto-fill, minmax(256px, 1fr))
-    gap: tint.$size-8
-    margin-block: tint.$size-16
+    gap: var(--tint-size-8)
+    margin-block: var(--tint-size-16)
     list-style: none
 
   .keyword-chip
-    padding-block: tint.$size-8
-    padding-inline: tint.$size-12
+    padding-block: var(--tint-size-8)
+    padding-inline: var(--tint-size-12)
     background: var(--tint-bg)
     border: 1px solid
-    border-radius: tint.$size-24
+    border-radius: var(--tint-size-24)
     display: flex
     min-width: 0
     &:has(.keyword-link:focus-visible)
@@ -133,7 +133,7 @@
     flex: 1
     display: inline-flex
     align-items: center
-    gap: tint.$size-4
+    gap: var(--tint-size-4)
     text-decoration: none
     color: inherit
     white-space: nowrap
@@ -151,14 +151,14 @@
   .keyword-count
     background: var(--tint-text-secondary)
     color: var(--tint-bg)
-    padding-block: tint.$size-2
-    padding-inline: tint.$size-8
-    border-radius: tint.$size-12
+    padding-block: var(--tint-size-2)
+    padding-inline: var(--tint-size-8)
+    border-radius: var(--tint-size-12)
     min-width: 20px
     text-align: center
 
   .more
     display: flex
     justify-content: center
-    margin-block: tint.$size-16
+    margin-block: var(--tint-size-16)
 </style>

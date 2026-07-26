@@ -7,6 +7,7 @@
   } from '@src/components/FileAdjustModal/utils/canvas-renderer'
   import { eventToCanvasCoords } from '@src/components/FileAdjustModal/utils/canvas-coordinates'
   import { drawTemplateAreas } from './utils/template-drawing'
+  import { ensureAreaFontsLoaded } from '@src/utils/template-text-layout'
   import {
     hitTestAreas,
     applyDrag,
@@ -80,6 +81,18 @@
     void displayWidth
     void displayHeight
     renderer?.render()
+  })
+
+  // Repaint once the self-hosted meme fonts have loaded so the preview text
+  // isn't drawn with a fallback font on first render.
+  $effect(() => {
+    let cancelled = false
+    ensureAreaFontsLoaded(areas).then(() => {
+      if (!cancelled) renderer?.render()
+    })
+    return () => {
+      cancelled = true
+    }
   })
 
   function draw() {

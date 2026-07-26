@@ -259,7 +259,7 @@
 <style lang="sass">
   .nav
     background: var(--tint-bg)
-    padding-block: tint.$size-12
+    padding-block: var(--tint-size-12)
     :global(.add-small)
       display: none
     @media (max-width: tint.$breakpoint-sm)
@@ -269,7 +269,7 @@
         display: inherit
     > div
       display: flex
-      gap: tint.$size-12
+      gap: var(--tint-size-12)
       > :global(button)
         flex-shrink: 0
 
@@ -278,11 +278,11 @@
 
   .columns
     display: flex
-    gap: tint.$size-16
-    margin-block-start: tint.$size-16
+    gap: var(--tint-size-16)
+    margin-block-start: var(--tint-size-16)
 
   .column
-    gap: tint.$size-16
+    gap: var(--tint-size-16)
     display: flex
     flex-grow: 1
     width: 100%
@@ -290,19 +290,19 @@
 
   .post
     background: var(--tint-bg)
-    border-radius: tint.$size-8
+    border-radius: var(--tint-size-8)
     display: block
     overflow: hidden
     position: relative
     @include tint.effect-focus()
     img
-      top: 0
+      inset-block-start: 0
       position: absolute
       display: block
       width: 100%
       pointer-events: none
     .placeholder
-      top: 0
+      inset-block-start: 0
       position: absolute
       display: flex
       align-items: center
@@ -320,14 +320,14 @@
       position: absolute
       align-items: center
       pointer-events: none
-      left: 0
-      right: 0
-      bottom: 0
+      inset-inline-start: 0
+      inset-inline-end: 0
+      inset-block-end: 0
       background: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, #000 100%)
       color: white
-      padding: tint.$size-12
-      padding-block-start: tint.$size-24
-      gap: tint.$size-4
+      padding: var(--tint-size-12)
+      padding-block-start: var(--tint-size-24)
+      gap: var(--tint-size-4)
       opacity: 0
       transition: opacity 0.2s ease-in-out
       transition-delay: 0.1s
@@ -346,8 +346,8 @@
           border: 2px solid white
           box-sizing: border-box
           border-radius: tint.$profile-picture-radius
-        width: tint.$size-24
-        height: tint.$size-24
+        width: var(--tint-size-24)
+        height: var(--tint-size-24)
         &.pfp
           line-height: 0
           :global(img)
@@ -361,10 +361,10 @@
     inset: 0
     position: absolute
     color: var(--tint-text-accent)
-    padding: tint.$size-24
+    padding: var(--tint-size-24)
     display: flex
     flex-direction: column
-    gap: tint.$size-8
+    gap: var(--tint-size-8)
     > span
       text-align: center
       overflow: hidden
@@ -375,14 +375,14 @@
       display: flex
       align-items: center
       justify-content: space-between
-      padding-inline: tint.$size-32
-      padding-block: tint.$size-8
+      padding-inline: var(--tint-size-32)
+      padding-block: var(--tint-size-8)
       gap: 2px
       span
         flex: 1
         border-radius: 100px
         height: calc(var(--audio-amp) * 100%)
-        min-height: tint.$size-12
+        min-height: var(--tint-size-12)
         background: currentColor
         max-width: 6px
         min-width: 2px
@@ -391,5 +391,5 @@
   .more
     display: flex
     justify-content: center
-    margin-block-start: tint.$size-24
+    margin-block-start: var(--tint-size-24)
 </style>

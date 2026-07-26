@@ -147,8 +147,7 @@ export const mutationResolvers: MutationResolvers = {
     ItemActions.mRemoveModifications(ctx, {
       itemId: args.itemId,
       removeModifications: args.removeModifications as (
-        | keyof PersistentModifications
-        | 'fileType'
+        keyof PersistentModifications | 'fileType'
       )[],
       clearAllModifications: args.clearAllModifications ?? undefined,
     }),
@@ -191,6 +190,9 @@ export const mutationResolvers: MutationResolvers = {
             alignH: a.alignH as 'start' | 'center' | 'end',
             alignV: a.alignV as 'start' | 'center' | 'end',
             overflow: a.overflow as 'compress' | 'shrink',
+            strokeWidth: a.strokeWidth ?? undefined,
+            strokeColor: a.strokeColor ?? undefined,
+            uppercase: a.uppercase ?? undefined,
           })),
         }
       : null

@@ -893,24 +893,24 @@
   .trim-wrapper
     display: flex
     flex-direction: column
-    gap: tint.$size-12
-    margin-block-start: tint.$size-16
+    gap: var(--tint-size-12)
+    margin-block-start: var(--tint-size-16)
 
   .trim-timeline
     position: relative
-    height: tint.$size-48
+    height: var(--tint-size-48)
     background: transparent
-    border-radius: tint.$size-8
+    border-radius: var(--tint-size-8)
     user-select: none
     touch-action: none
 
   .trim-interactive-overlay
     position: absolute
-    top: 0
-    left: 0
+    inset-block-start: 0
+    inset-inline-start: 0
     width: 100%
     height: 100%
-    border-radius: tint.$size-8
+    border-radius: var(--tint-size-8)
     touch-action: none
     z-index: 4
     pointer-events: auto
@@ -918,7 +918,7 @@
   .trim-info
     display: flex
     justify-content: space-between
-    gap: tint.$size-8
+    gap: var(--tint-size-8)
     font-size: 12px
     color: var(--tint-text-secondary)
 

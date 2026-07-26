@@ -81,13 +81,13 @@
     display: flex
     align-items: center
     justify-content: space-between
-    padding-block: tint.$size-8
+    padding-block: var(--tint-size-8)
     padding-inline: 0
-    gap: tint.$size-8
+    gap: var(--tint-size-8)
 
   .actions
     display: flex
-    gap: tint.$size-8
+    gap: var(--tint-size-8)
 
   .actions.standalone
     width: 100%

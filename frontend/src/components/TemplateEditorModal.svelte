@@ -5,6 +5,8 @@
   } from 'archive-shared/src/templates'
   import Button from 'tint/components/Button.svelte'
   import Select from 'tint/components/Select.svelte'
+  import ColorPicker from 'tint/components/ColorPicker/ColorPicker.svelte'
+  import LabeledSlider from 'tint/components/LabeledSlider.svelte'
   import Modal from 'tint/components/Modal.svelte'
   import ModalHeader from '@src/components/ModalHeader.svelte'
   import LoadingIndicator from 'tint/components/LoadingIndicator.svelte'
@@ -69,6 +71,11 @@
     ) {
       areas = item.data.file.modifications.template.areas.map((a) => ({
         ...a,
+        // Backfill fields added after the template was first saved so older
+        // templates keep rendering exactly as before.
+        strokeWidth: a.strokeWidth ?? 0,
+        strokeColor: a.strokeColor ?? '#000000',
+        uppercase: a.uppercase ?? false,
       }))
     } else {
       areas = []
@@ -142,9 +149,14 @@
       alignH: 'center',
       alignV: 'center',
       overflow: 'shrink',
-      font: 'Sans-serif',
-      fontSize: 32,
+      // Default to the classic meme look: Impact, white text, black outline,
+      // all caps. Authors can switch any of these per area.
+      font: 'Impact',
+      fontSize: 48,
       textColor: '#ffffff',
+      strokeWidth: 8,
+      strokeColor: '#000000',
+      uppercase: true,
       backplateOpacity: 0,
       backplateColor: '#000000',
     }
@@ -243,62 +255,93 @@
           <div class="controls">
             {#if selectedArea}
               <div class="control-grid">
-                <!-- Row 1 -->
-                <SegmentedControl
-                  small
-                  id="alignH"
-                  label="Horizontal alignment"
-                  value={selectedArea.alignH}
-                  onchange={(v) =>
+                <!-- Font (wide) + text colour -->
+                <div class="grid-group span-2">
+                  <Select
+                    id="font"
+                    label="Font"
+                    value={selectedArea.font}
+                    onchange={(e) =>
+                      updateSelectedField(
+                        'font',
+                        (e.target as HTMLSelectElement).value,
+                      )}
+                    items={[
+                      { value: 'Impact', label: 'Anton (like Impact)' },
+                      {
+                        value: 'Comic Sans',
+                        label: 'Comic Neue (like Comic Sans)',
+                      },
+                      { value: 'Jost', label: 'Jost (like Futura)' },
+                      { value: 'Sans-serif', label: 'Sans-serif' },
+                      { value: 'Serif', label: 'Serif' },
+                    ]}
+                  />
+                </div>
+                <ColorPicker
+                  id="textColor"
+                  label="Text color"
+                  value={selectedArea.textColor}
+                  onchange={(e) => updateSelectedField('textColor', e.value)}
+                />
+
+                <!-- Size + outline sliders + outline colour -->
+                <LabeledSlider
+                  id="fontSize"
+                  small={false}
+                  label={`Size: ${selectedArea.fontSize}px`}
+                  min={8}
+                  max={128}
+                  step={2}
+                  value={selectedArea.fontSize}
+                  oninput={(e) => updateSelectedField('fontSize', e.value)}
+                />
+                <LabeledSlider
+                  id="strokeWidth"
+                  small={false}
+                  label={`Outline: ${
+                    (selectedArea.strokeWidth ?? 0) === 0
+                      ? 'off'
+                      : selectedArea.strokeWidth
+                  }`}
+                  min={0}
+                  max={28}
+                  step={1}
+                  value={selectedArea.strokeWidth ?? 0}
+                  oninput={(e) => updateSelectedField('strokeWidth', e.value)}
+                />
+                <ColorPicker
+                  id="strokeColor"
+                  label="Outline color"
+                  value={selectedArea.strokeColor ?? '#000000'}
+                  disabled={(selectedArea.strokeWidth ?? 0) === 0}
+                  onchange={(e) => updateSelectedField('strokeColor', e.value)}
+                />
+
+                <!-- Backplate + overflow -->
+                <Select
+                  id="backplateOpacity"
+                  label="Backplating"
+                  value={selectedArea.backplateOpacity}
+                  onchange={(e) =>
                     updateSelectedField(
-                      'alignH',
-                      v as 'start' | 'center' | 'end',
+                      'backplateOpacity',
+                      Number((e.target as HTMLSelectElement).value),
                     )}
                   items={[
-                    {
-                      value: 'start',
-                      icon: IconAlignStart,
-                      tooltip: 'Align left',
-                    },
-                    {
-                      value: 'center',
-                      icon: IconAlignCenter,
-                      tooltip: 'Align center',
-                    },
-                    {
-                      value: 'end',
-                      icon: IconAlignEnd,
-                      tooltip: 'Align right',
-                    },
+                    { value: 0, label: 'Disabled' },
+                    { value: 50, label: '50%' },
+                    { value: 75, label: '75%' },
+                    { value: 100, label: '100%' },
                   ]}
                 />
-                <SegmentedControl
-                  small
-                  id="alignV"
-                  label="Vertical alignment"
-                  value={selectedArea.alignV}
-                  onchange={(v) =>
-                    updateSelectedField(
-                      'alignV',
-                      v as 'start' | 'center' | 'end',
-                    )}
-                  items={[
-                    {
-                      value: 'start',
-                      icon: IconAlignTop,
-                      tooltip: 'Align top',
-                    },
-                    {
-                      value: 'center',
-                      icon: IconAlignMiddle,
-                      tooltip: 'Align middle',
-                    },
-                    {
-                      value: 'end',
-                      icon: IconAlignBottom,
-                      tooltip: 'Align bottom',
-                    },
-                  ]}
+                <ColorPicker
+                  id="backplateColor"
+                  label="Backplate color"
+                  value={selectedArea.backplateColor}
+                  disabled={selectedArea.backplateOpacity === 0}
+                  onchange={(e) =>
+                    updateSelectedField('backplateColor', e.value)}
                 />
                 <SegmentedControl
                   small
@@ -313,110 +356,92 @@
                   ]}
                 />
 
-                <!-- Row 2 -->
-                <div class="grid-group">
-                  <Select
-                    id="font"
-                    label="Font"
-                    value={selectedArea.font}
-                    onchange={(e) =>
+                <!-- Alignment + casing. The two alignment triads share a line
+                     on the narrowest layout since their icons are tiny. -->
+                <div class="align-pair">
+                  <SegmentedControl
+                    small
+                    id="alignH"
+                    label="Horizontal alignment"
+                    value={selectedArea.alignH}
+                    onchange={(v) =>
                       updateSelectedField(
-                        'font',
-                        (e.target as HTMLSelectElement).value,
+                        'alignH',
+                        v as 'start' | 'center' | 'end',
                       )}
                     items={[
-                      { value: 'Sans-serif', label: 'Sans-serif' },
-                      { value: 'Serif', label: 'Serif' },
+                      {
+                        value: 'start',
+                        icon: IconAlignStart,
+                        tooltip: 'Align left',
+                      },
+                      {
+                        value: 'center',
+                        icon: IconAlignCenter,
+                        tooltip: 'Align center',
+                      },
+                      {
+                        value: 'end',
+                        icon: IconAlignEnd,
+                        tooltip: 'Align right',
+                      },
                     ]}
                   />
-                  <label class="color-button" title="Text color">
-                    <span
-                      class="color-circle"
-                      style="background: {selectedArea.textColor}"
-                    ></span>
-                    <input
-                      type="color"
-                      value={selectedArea.textColor}
-                      oninput={(e) =>
-                        updateSelectedField(
-                          'textColor',
-                          (e.target as HTMLInputElement).value,
-                        )}
-                    />
-                  </label>
-                </div>
-                <div class="grid-group">
-                  <Select
-                    id="backplateOpacity"
-                    label="Backplating"
-                    value={selectedArea.backplateOpacity}
-                    onchange={(e) =>
+                  <SegmentedControl
+                    small
+                    id="alignV"
+                    label="Vertical alignment"
+                    value={selectedArea.alignV}
+                    onchange={(v) =>
                       updateSelectedField(
-                        'backplateOpacity',
-                        Number((e.target as HTMLSelectElement).value),
+                        'alignV',
+                        v as 'start' | 'center' | 'end',
                       )}
                     items={[
-                      { value: 0, label: 'Disabled' },
-                      { value: 50, label: '50%' },
-                      { value: 75, label: '75%' },
-                      { value: 100, label: '100%' },
+                      {
+                        value: 'start',
+                        icon: IconAlignTop,
+                        tooltip: 'Align top',
+                      },
+                      {
+                        value: 'center',
+                        icon: IconAlignMiddle,
+                        tooltip: 'Align middle',
+                      },
+                      {
+                        value: 'end',
+                        icon: IconAlignBottom,
+                        tooltip: 'Align bottom',
+                      },
                     ]}
                   />
-                  <label
-                    class="color-button"
-                    class:disabled={selectedArea.backplateOpacity === 0}
-                    title="Backplate color"
-                  >
-                    <span
-                      class="color-circle"
-                      style="background: {selectedArea.backplateColor}"
-                    ></span>
-                    <input
-                      type="color"
-                      value={selectedArea.backplateColor}
-                      oninput={(e) =>
-                        updateSelectedField(
-                          'backplateColor',
-                          (e.target as HTMLInputElement).value,
-                        )}
-                    />
-                  </label>
                 </div>
-                <div class="grid-group">
-                  <Select
-                    id="fontSize"
-                    label="Size"
-                    value={selectedArea.fontSize}
-                    onchange={(e) =>
-                      updateSelectedField(
-                        'fontSize',
-                        Number((e.target as HTMLSelectElement).value),
-                      )}
-                    items={[
-                      { value: 8, label: '8' },
-                      { value: 12, label: '12' },
-                      { value: 16, label: '16' },
-                      { value: 24, label: '24' },
-                      { value: 32, label: '32' },
-                      { value: 48, label: '48' },
-                      { value: 64, label: '64' },
-                      { value: 96, label: '96' },
-                      { value: 128, label: '128' },
-                    ]}
-                  />
-                  <Button icon title="Delete area" onclick={deleteSelectedArea}>
-                    {@html IconTrash}
-                  </Button>
-                  <Button
-                    variant="primary"
-                    icon
-                    title="Add area"
-                    onclick={addArea}
-                    disabled={loading}
-                  >
-                    {@html IconAdd}
-                  </Button>
-                </div>
+                <SegmentedControl
+                  small
+                  id="uppercase"
+                  label="Text case"
+                  value={selectedArea.uppercase ? 'upper' : 'normal'}
+                  onchange={(v) =>
+                    updateSelectedField('uppercase', v === 'upper')}
+                  items={[
+                    { value: 'normal', label: 'Aa', tooltip: 'Normal case' },
+                    { value: 'upper', label: 'AA', tooltip: 'Uppercase' },
+                  ]}
+                />
+              </div>
+              <div class="control-actions">
+                <Button icon title="Delete area" onclick={deleteSelectedArea}>
+                  {@html IconTrash}
+                </Button>
+                <Button
+                  variant="primary"
+                  icon
+                  title="Add area"
+                  onclick={addArea}
+                  disabled={loading}
+                >
+                  {@html IconAdd}
+                </Button>
               </div>
             {:else}
               <div class="empty-controls">
@@ -446,16 +471,19 @@
 
   .section
     width: 100%
-    padding-block: tint.$size-16
+    padding-block: var(--tint-size-16)
 
     &:last-child
-      padding-block-end: tint.$size-32
+      padding-block-end: var(--tint-size-32)
 
   .container
     box-sizing: border-box
     max-width: 900px
     margin-inline: auto
-    padding-inline: tint.$size-32
+    padding-inline: var(--tint-size-16)
+
+    @media (min-width: 37.5rem)
+      padding-inline: var(--tint-size-32)
 
   .preview-area
     display: flex
@@ -469,7 +497,7 @@
     box-sizing: border-box
     position: relative
     margin-inline: auto
-    padding: tint.$size-16
+    padding: var(--tint-size-16)
     max-width: 100%
 
     img
@@ -479,66 +507,72 @@
     display: flex
     flex-direction: column
     align-items: center
-    gap: tint.$size-8
+    gap: var(--tint-size-8)
     color: var(--tint-text-secondary)
 
   .controls
-    padding-block: tint.$size-12
+    padding-block: var(--tint-size-12)
 
+  // Reflows from a single column on phones up to three columns on wide
+  // viewports. Font spans two columns at the widest size so its longer option
+  // labels have room.
   .control-grid
     display: grid
-    grid-template-columns: 1fr 1fr 1fr
-    gap: tint.$size-12
+    grid-template-columns: 1fr
+    gap: var(--tint-size-12)
+    // Bottom-align so sliders (label on top) line up with the inputs and
+    // segmented controls next to them instead of stretching.
+    align-items: end
+
+    @media (min-width: 37.5rem)
+      grid-template-columns: 1fr 1fr
+
+    @media (min-width: 56rem)
+      grid-template-columns: repeat(3, 1fr)
 
   .grid-group
     display: flex
-    gap: tint.$size-8
+    gap: var(--tint-size-8)
     align-items: flex-end
+    min-width: 0
 
-    > :first-child
+    // Select + ColorPicker each take half of the cell.
+    > *
       flex: 1
       min-width: 0
+
+    // Font gets extra room: it spans two columns in the three-column layout.
+    &.span-2
+      @media (min-width: 56rem)
+        grid-column: span 2
+
+  // On the narrowest layout the two alignment triads share one row (their icons
+  // are tiny). At wider sizes the wrapper dissolves so each becomes its own grid
+  // cell again.
+  .align-pair
+    display: flex
+    gap: var(--tint-size-8)
+    min-width: 0
+
+    > *
+      flex: 1
+      min-width: 0
+
+    @media (min-width: 37.5rem)
+      display: contents
+
+  .control-actions
+    display: flex
+    justify-content: flex-end
+    gap: var(--tint-size-8)
+    margin-block-start: var(--tint-size-12)
 
   .empty-controls
     display: flex
     align-items: center
     justify-content: space-between
-
-  .color-button
-    display: inline-flex
-    align-items: center
-    justify-content: center
-    height: tint.$size-48
-    aspect-ratio: 1
-    flex-shrink: 0
-    border: none
-    border-radius: 8px
-    background: var(--tint-input-bg)
-    cursor: pointer
-    &:hover
-      background: var(--tint-action-secondary-hover)
-
-    &:active
-      background: var(--tint-action-secondary-active)
-
-    &.disabled
-      opacity: 0.5
-      pointer-events: none
-
-    input
-      position: absolute
-      width: 0
-      height: 0
-      overflow: hidden
-      opacity: 0
-      pointer-events: none
-
-  .color-circle
-    width: 24px
-    height: 24px
-    border-radius: 50%
-    border: 2px solid var(--tint-card-border)
-    pointer-events: none
+    gap: var(--tint-size-12)
+    flex-wrap: wrap
 
   .hint
     color: var(--tint-text-secondary)

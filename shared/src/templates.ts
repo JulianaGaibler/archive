@@ -12,6 +12,15 @@ export interface TemplateArea {
   fontSize: number
   textColor: string
 
+  // Text outline (classic meme style). Optional for backwards compatibility
+  // with templates created before these fields existed.
+  // strokeWidth is the visible outline thickness as a percentage of the font
+  // size (0 = no outline).
+  strokeWidth?: number
+  strokeColor?: string
+  // Render the text in all caps (typical for meme captions).
+  uppercase?: boolean
+
   backplateOpacity: number
   backplateColor: string
 }

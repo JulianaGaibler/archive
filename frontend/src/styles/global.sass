@@ -9,6 +9,34 @@
 
 @include bootstrap.generate-font-faces("~tint/fonts")
 
+// Template (meme) editor fonts. All SIL OFL 1.1 — license texts are served
+// next to the files (see public/fonts/NOTICE.md):
+//   Anton      © 2020 The Anton Project Authors
+//   Comic Neue © 2014 The Comic Neue Project Authors
+//   Jost*      © 2020 The Jost Project Authors
+// Declared with @font-face so the browser only fetches them when a template
+// actually renders text in that family — keeps the initial bundle untouched.
+@font-face
+  font-family: 'Anton'
+  font-style: normal
+  font-weight: 400
+  font-display: swap
+  src: url('/fonts/anton.woff2') format('woff2')
+
+@font-face
+  font-family: 'Comic Neue'
+  font-style: normal
+  font-weight: 700
+  font-display: swap
+  src: url('/fonts/comic-neue.woff2') format('woff2')
+
+@font-face
+  font-family: 'Jost'
+  font-style: normal
+  font-weight: 700
+  font-display: swap
+  src: url('/fonts/jost.woff2') format('woff2')
+
 @include bootstrap.full-bootstrap()
 
 html
@@ -23,18 +51,18 @@ body
 .shrinkwrap
   margin-inline: auto
   max-width: 1080px
-  padding-inline: utils.$size-24
+  padding-inline: var(--tint-size-24)
 
 .sticky-header
   display: flex
   align-items: center
   position: sticky
-  top: 0
-  padding: utils.$size-12
-  min-height: utils.$size-24
+  inset-block-start: 0
+  padding: var(--tint-size-12)
+  min-height: var(--tint-size-24)
   background: var(--tint-input-bg)
-  border-bottom: 1px solid var(--tint-card-border)
-  margin-block-end: utils.$size-8
+  border-block-end: 1px solid var(--tint-card-border)
+  margin-block-end: var(--tint-size-8)
   z-index: 1
   h3
     color: var(--tint-text-secondary)
@@ -46,7 +74,7 @@ ul.pipelist
   li
     img
       position: relative
-      top: utils.$size-2
+      inset-block-start: var(--tint-size-2)
     &:not(:last-child)::after
       content: '|'
-      margin-inline: utils.$size-8
+      margin-inline: var(--tint-size-8)

@@ -467,32 +467,34 @@
   article
     display: flex
     flex-direction: column
-    gap: tint.$size-12
+    gap: var(--tint-size-12)
     &:not(:last-child)
-      margin-block-end: tint.$size-32
+      margin-block-end: var(--tint-size-32)
 
   .content
     display: grid
     grid-template-columns: 1fr 1fr
-    gap: tint.$size-12
+    gap: var(--tint-size-12)
     @media (max-width: tint.$breakpoint-sm)
       grid-template-columns: 1fr
     &.view-mode > div
       background: var(--tint-input-bg)
-      border-radius: tint.$card-radius
+      border-radius: var(--tint-radius-card)
       max-height: 200px
       overflow-y: auto
-      padding-block-end: tint.$size-8
+      padding-block-end: var(--tint-size-8)
       > q
         display: block
-        padding: 0 tint.$size-12
+        padding-block: 0
+        padding-inline: var(--tint-size-12)
     :global(textarea)
       max-height: 200px
     q
       quotes: none
 
   .caption-actions
-    margin-block-start: tint.$size-8
-    padding: 0 tint.$size-8
+    margin-block-start: var(--tint-size-8)
+    padding-block: 0
+    padding-inline: var(--tint-size-8)
 
 </style>

@@ -1,6 +1,6 @@
 import { AuthenticationError } from './errors/index.js'
 import express from 'express'
-import cookie from 'cookie'
+import { parseCookie } from 'cookie'
 import { DbConnection } from '@src/Connection.js'
 
 import {
@@ -158,7 +158,7 @@ export default class Context {
         const cookieIndex = headerArray.findIndex((item) => item === 'Cookie')
         const cookies =
           cookieIndex !== -1
-            ? cookie.parse(headerArray[cookieIndex + 1])
+            ? parseCookie(headerArray[cookieIndex + 1])
             : undefined
         const agentIndex = headerArray.findIndex(
           (item) => item === 'User-Agent',

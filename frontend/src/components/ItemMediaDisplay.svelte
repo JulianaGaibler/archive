@@ -18,7 +18,9 @@
   import { getLanguageInfo } from 'archive-shared/src/language-utils'
   import type { TemplateConfig } from 'archive-shared/src/templates'
 
-  // Lazy-loaded TemplateApply component
+  // Lazy-loaded TemplateApply component. Its CSS is compiled as `injected`
+  // (see astro.config.mjs) so styles travel with this dynamic chunk and are
+  // applied at runtime — avoiding Astro's aggregator orphaning the CSS.
   type TemplateApplyType = typeof import('./TemplateApply.svelte').default
   let TemplateApply = $state<TemplateApplyType | null>(null)
 
@@ -51,7 +53,7 @@
     return null
   })
 
-  // Lazy-load TemplateApply when template exists
+  // Lazy-load TemplateApply when a template exists
   $effect(() => {
     if (templateConfig && !TemplateApply) {
       import('./TemplateApply.svelte').then((m) => {
@@ -213,15 +215,15 @@
   display: flex
   align-items: center
   justify-content: space-between
-  padding-inline: tint.$size-8
-  padding-block: tint.$size-8
-  gap: tint.$size-8
+  padding-inline: var(--tint-size-8)
+  padding-block: var(--tint-size-8)
+  gap: var(--tint-size-8)
   flex-wrap: wrap
 
 .origin
   display: flex
   align-items: center
-  gap: tint.$size-8
+  gap: var(--tint-size-8)
   flex: 1 1 auto
   min-width: 0
 
@@ -230,7 +232,7 @@
   padding: 0
   margin: 0
   display: flex
-  gap: tint.$size-8
+  gap: var(--tint-size-8)
   flex-wrap: wrap
 
   li
@@ -240,18 +242,18 @@
 
     &:not(:last-child)::after
       content: '|'
-        margin-inline-start: tint.$size-8
+        margin-inline-start: var(--tint-size-8)
 .actions
   display: flex
-  gap: tint.$size-8
+  gap: var(--tint-size-8)
   flex-wrap: wrap
 
 .status-icon
   display: flex
   align-items: center
   justify-content: center
-  width: tint.$size-32
-  height: tint.$size-32
+  width: var(--tint-size-32)
+  height: var(--tint-size-32)
   background: var(--tint-input-bg)
   border-radius: 50%
   box-sizing: border-box

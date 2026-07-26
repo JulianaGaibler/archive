@@ -11,3 +11,7 @@ package-lock.json
 .env
 dist/
 example.env
+
+# Codegen output — formatted by graphql-codegen, not Prettier (mirrors the
+# frontend ignoring its generated/ directory).
+src/apis/GraphQLApi/generated-types.ts

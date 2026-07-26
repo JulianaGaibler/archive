@@ -187,9 +187,10 @@
   button
     all: unset
     display: flex
-    gap: tint.$size-8
+    gap: var(--tint-size-8)
     // Inline padding matches parent so text aligns with header
-    padding: tint.$size-4 tint.$size-12
+    padding-block: var(--tint-size-4)
+    padding-inline: var(--tint-size-12)
     width: 100%
     box-sizing: border-box
     cursor: pointer
@@ -204,18 +205,20 @@
   flex-shrink: 0
   align-self: start
   background: color-mix(in srgb, var(--tint-text) 8%, transparent)
-  padding: tint.$size-2 tint.$size-8
-  border-radius: tint.$size-80
+  padding-block: var(--tint-size-2)
+  padding-inline: var(--tint-size-8)
+  border-radius: var(--tint-size-80)
 
 .cue-voice
   color: var(--tint-text-accent)
   white-space: nowrap
-  margin-inline-end: tint.$size-4
+  margin-inline-end: var(--tint-size-4)
 
 .cue-text
   white-space: pre-wrap
 
 .plain-caption
   white-space: pre-wrap
-  padding: 0 tint.$size-12
+  padding-block: 0
+  padding-inline: var(--tint-size-12)
 </style>

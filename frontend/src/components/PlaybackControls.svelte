@@ -233,26 +233,26 @@
     position: relative
 
   .progress-container
-    margin-block-end: tint.$size-12
+    margin-block-end: var(--tint-size-12)
 
   .progress-bar
     width: 100%
-    height: tint.$size-4
+    height: var(--tint-size-4)
     background: color-mix(in srgb, var(--tint-action-secondary) 20%, transparent)
-    border-radius: tint.$size-2
+    border-radius: var(--tint-size-2)
     appearance: none
     outline: none
     cursor: pointer
     &::-webkit-slider-thumb
       appearance: none
-      width: tint.$size-16
-      height: tint.$size-16
+      width: var(--tint-size-16)
+      height: var(--tint-size-16)
       border-radius: 50%
       background: var(--tint-action-primary)
       cursor: pointer
     &::-moz-range-thumb
-      width: tint.$size-16
-      height: tint.$size-16
+      width: var(--tint-size-16)
+      height: var(--tint-size-16)
       border-radius: 50%
       background: var(--tint-action-primary)
       cursor: pointer
@@ -262,18 +262,18 @@
     display: flex
     align-items: center
     justify-content: space-between
-    gap: tint.$size-12
+    gap: var(--tint-size-12)
     flex-wrap: wrap
     :global(.tint--button.play-pause-button)
-      width: tint.$size-80
+      width: var(--tint-size-80)
     :global(.tint--button.small.play-pause-button)
-      width: tint.$size-64
+      width: var(--tint-size-64)
 
   .controls-left,
   .controls-right
     display: flex
     align-items: center
-    gap: tint.$size-8
+    gap: var(--tint-size-8)
     flex-wrap: wrap
 
   @media (max-width: tint.$breakpoint-sm)
@@ -285,25 +285,25 @@
   .volume-control
     display: flex
     align-items: center
-    gap: tint.$size-4
+    gap: var(--tint-size-4)
 
   .volume-slider
-    width: tint.$size-80
-    height: tint.$size-4
+    width: var(--tint-size-80)
+    height: var(--tint-size-4)
     background: color-mix(in srgb, var(--tint-action-secondary) 20%, transparent)
-    border-radius: tint.$size-2
+    border-radius: var(--tint-size-2)
     appearance: none
     outline: none
     &::-webkit-slider-thumb
       appearance: none
-      width: tint.$size-12
-      height: tint.$size-12
+      width: var(--tint-size-12)
+      height: var(--tint-size-12)
       border-radius: 50%
       background: var(--tint-action-secondary)
       cursor: pointer
     &::-moz-range-thumb
-      width: tint.$size-12
-      height: tint.$size-12
+      width: var(--tint-size-12)
+      height: var(--tint-size-12)
       border-radius: 50%
       background: var(--tint-action-secondary)
       cursor: pointer
@@ -312,15 +312,15 @@
   .time-display
     color: var(--tint-text-secondary)
     white-space: nowrap
-    padding-inline: tint.$size-12
+    padding-inline: var(--tint-size-12)
 
   .speed-control button
     color: var(--tint-text)
     background: none
-    border-radius: tint.$size-64
+    border-radius: var(--tint-size-64)
     border: 2px solid
-    padding-inline: tint.$size-8
-    padding-block: tint.$size-4
+    padding-inline: var(--tint-size-8)
+    padding-block: var(--tint-size-4)
     text-transform: uppercase
     @include tint.effect-focus()
     &:hover
