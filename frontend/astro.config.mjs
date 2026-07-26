@@ -84,6 +84,12 @@ export default defineConfig({
           '/TemplateApply.svelte',
           '/ModalHeader.svelte',
           '/CaptionOverlay.svelte',
+          // tint components used only inside the template editor modal, so
+          // their CSS is reachable only via the hydrated island and gets
+          // orphaned (ColorPicker also lazy-loads its :global() Popover).
+          '/tint/dist/components/ColorPicker/',
+          '/tint/dist/components/LabeledSlider.svelte',
+          '/tint/dist/components/Slider.svelte',
         ]
         if (injectedCssPaths.some((p) => filename.includes(p))) {
           return { css: 'injected' }

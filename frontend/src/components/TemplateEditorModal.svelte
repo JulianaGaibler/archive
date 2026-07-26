@@ -424,7 +424,12 @@
                   onchange={(v) =>
                     updateSelectedField('uppercase', v === 'upper')}
                   items={[
-                    { value: 'normal', label: 'Aa', tooltip: 'Normal case' },
+                    {
+                      value: 'normal',
+                      label: 'Aa',
+                      tooltip: 'Normal case',
+                      class: 'case-normal',
+                    },
                     { value: 'upper', label: 'AA', tooltip: 'Uppercase' },
                   ]}
                 />
@@ -577,5 +582,8 @@
   .hint
     color: var(--tint-text-secondary)
     margin: 0
+
+  :global(.segment.case-normal)
+    text-transform: none
 
 </style>
