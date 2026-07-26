@@ -63,8 +63,9 @@ COPY frontend/package.json frontend/
 # Install only production dependencies
 RUN npm ci --omit=dev --workspace=frontend && npm cache clean --force
 
-# Copy built application from builder stage
-COPY --from=builder /app/frontend/dist ./dist
+# Copy built application into the frontend workspace dir so runtime module
+# resolution can reach both /app/node_modules and /app/frontend/node_modules
+COPY --from=builder /app/frontend/dist ./frontend/dist
 
 # Copy changelog.yaml for runtime server-side rendering
 COPY --from=builder /app/changelog.yaml ../changelog.yaml
