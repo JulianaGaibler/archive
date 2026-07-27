@@ -10,17 +10,9 @@ export type DragMode =
   | 'trim-end'
   | 'scrub'
 
-export interface Rect {
-  x: number
-  y: number
-  width: number
-  height: number
-}
-
-export interface Point {
-  x: number
-  y: number
-}
+// Geometric primitives live in the neutral shared canvas module; re-exported
+// here so existing FileAdjustModal imports keep working.
+export type { Point, Rect } from '@src/utils/canvas/types'
 
 export interface DrawColors {
   accent: string

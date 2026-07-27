@@ -1,7 +1,7 @@
 import type { TemplateArea } from 'archive-shared/src/templates'
 import type { DragMode, Point } from './types'
 import { getAreaHandleHit } from './template-drawing'
-import { clamp } from '@src/components/FileAdjustModal/utils/canvas-coordinates'
+import { clamp } from '@src/utils/canvas/coordinates'
 
 const MIN_AREA_SIZE = 50
 

@@ -5,10 +5,10 @@
     createRenderer,
     clearCanvas,
   } from './utils/canvas-renderer'
-  import { clamp } from './utils/canvas-coordinates'
+  import { clamp } from '@src/utils/canvas/coordinates'
+  import { drawHandle } from '@src/utils/canvas/primitives'
   import {
     drawOverlay,
-    drawHandle,
     getCSSColor,
     drawDimensionLabel,
   } from './utils/canvas-drawing'

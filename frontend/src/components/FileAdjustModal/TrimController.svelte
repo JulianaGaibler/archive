@@ -8,7 +8,7 @@
     clearCanvas,
     observeResize,
   } from './utils/canvas-renderer'
-  import { clamp } from './utils/canvas-coordinates'
+  import { clamp } from '@src/utils/canvas/coordinates'
   import {
     drawOverlay,
     drawMarker,

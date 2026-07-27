@@ -5,7 +5,7 @@
     createRenderer,
     clearCanvas,
   } from '@src/components/FileAdjustModal/utils/canvas-renderer'
-  import { eventToCanvasCoords } from '@src/components/FileAdjustModal/utils/canvas-coordinates'
+  import { eventToCanvasCoords } from '@src/utils/canvas/coordinates'
   import { drawTemplateAreas } from './utils/template-drawing'
   import { ensureAreaFontsLoaded } from '@src/utils/template-text-layout'
   import {

@@ -15,6 +15,7 @@
   import AreaController from './TemplateEditorModal/AreaController.svelte'
   import type { EditableItem } from '@src/utils/edit-manager'
   import { getResourceUrl } from '@src/utils/resource-urls'
+  import { fitDisplayDimensions } from '@src/utils/canvas/fit-dimensions'
   import IconAlignStart from 'tint/icons/20-text-align-start.svg?raw'
   import IconAlignCenter from 'tint/icons/20-text-align-center.svg?raw'
   import IconAlignEnd from 'tint/icons/20-text-align-end.svg?raw'
@@ -111,22 +112,14 @@
 
       const maxHeight = 500
       const containerWidth = previewAreaEl?.clientWidth ?? 900
-      const maxWidth = containerWidth - WRAPPER_PADDING
-      const aspect = img.naturalWidth / img.naturalHeight
-      let w = img.naturalWidth
-      let h = img.naturalHeight
-
-      if (h > maxHeight) {
-        h = maxHeight
-        w = h * aspect
-      }
-      if (w > maxWidth) {
-        w = maxWidth
-        h = w / aspect
-      }
-
-      displayWidth = Math.floor(w)
-      displayHeight = Math.floor(h)
+      const fitted = fitDisplayDimensions(
+        img.naturalWidth,
+        img.naturalHeight,
+        containerWidth - WRAPPER_PADDING,
+        maxHeight,
+      )
+      displayWidth = fitted.displayWidth
+      displayHeight = fitted.displayHeight
     }
 
     const observer = new ResizeObserver(() => {

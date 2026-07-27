@@ -1,6 +1,6 @@
 // Unified drag interaction handler for mouse and touch
 
-import { eventToCanvasCoords } from './canvas-coordinates'
+import { eventToCanvasCoords } from '@src/utils/canvas/coordinates'
 import type { DragHandler, DragState, Rect } from './types'
 
 /**

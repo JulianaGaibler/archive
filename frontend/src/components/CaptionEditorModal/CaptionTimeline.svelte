@@ -8,7 +8,7 @@
     clearCanvas,
     observeResize,
   } from '@src/components/FileAdjustModal/utils/canvas-renderer'
-  import { clamp } from '@src/components/FileAdjustModal/utils/canvas-coordinates'
+  import { clamp } from '@src/utils/canvas/coordinates'
   import {
     drawMarker,
     drawWaveform,

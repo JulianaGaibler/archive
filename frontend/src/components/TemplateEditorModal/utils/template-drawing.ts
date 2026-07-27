@@ -1,5 +1,5 @@
 import type { TemplateArea } from 'archive-shared/src/templates'
-import { drawHandle } from '@src/components/FileAdjustModal/utils/canvas-drawing'
+import { drawHandle } from '@src/utils/canvas/primitives'
 import {
   layoutText,
   paintTextLines,

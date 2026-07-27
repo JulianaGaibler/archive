@@ -15,6 +15,7 @@
   } from '@src/components/FileAdjustModal/utils/constants'
   import { getSourceDimensions } from '@src/components/FileAdjustModal/utils/media-dimensions'
   import { getMediaElement as getMediaElementUtil } from '@src/components/FileAdjustModal/utils/media-element'
+  import { fitDisplayDimensions } from '@src/utils/canvas/fit-dimensions'
 
   // Type for file with modifications
   interface FileWithModifications {
@@ -309,65 +310,33 @@
     if (!element) return
 
     const updateDimensions = () => {
+      // Video has max-height: 600px and max-width: 100%; images use the same
+      // constraints against their natural size.
+      const maxHeight = 600
+      const WRAPPER_PADDING = 32 // 16px on each side
+      const maxWidth =
+        (element.parentElement?.clientWidth || 900) - WRAPPER_PADDING
+
       if (element instanceof HTMLVideoElement) {
-        const videoWidth = element.videoWidth
-        const videoHeight = element.videoHeight
-
-        if (videoWidth === 0 || videoHeight === 0) return
-
-        // Video has max-height: 600px and max-width: 100%
-        // Calculate actual rendered size maintaining aspect ratio
-        const maxHeight = 600
-        const WRAPPER_PADDING = 32 // 16px on each side
-        const maxWidth =
-          (element.parentElement?.clientWidth || 900) - WRAPPER_PADDING
-
-        const aspectRatio = videoWidth / videoHeight
-        let renderWidth = videoWidth
-        let renderHeight = videoHeight
-
-        // Scale to fit within maxHeight
-        if (renderHeight > maxHeight) {
-          renderHeight = maxHeight
-          renderWidth = renderHeight * aspectRatio
-        }
-
-        // Scale to fit within maxWidth
-        if (renderWidth > maxWidth) {
-          renderWidth = maxWidth
-          renderHeight = renderWidth / aspectRatio
-        }
-
-        displayWidth = Math.floor(renderWidth)
-        displayHeight = Math.floor(renderHeight)
+        if (element.videoWidth === 0 || element.videoHeight === 0) return
+        const fitted = fitDisplayDimensions(
+          element.videoWidth,
+          element.videoHeight,
+          maxWidth,
+          maxHeight,
+        )
+        displayWidth = fitted.displayWidth
+        displayHeight = fitted.displayHeight
       } else if (element instanceof HTMLImageElement && element.complete) {
-        // For images, use naturalWidth/Height with same constraints
-        const naturalWidth = element.naturalWidth
-        const naturalHeight = element.naturalHeight
-
-        if (naturalWidth === 0 || naturalHeight === 0) return
-
-        const maxHeight = 600
-        const WRAPPER_PADDING = 32 // 16px on each side
-        const maxWidth =
-          (element.parentElement?.clientWidth || 900) - WRAPPER_PADDING
-
-        const aspectRatio = naturalWidth / naturalHeight
-        let renderWidth = naturalWidth
-        let renderHeight = naturalHeight
-
-        if (renderHeight > maxHeight) {
-          renderHeight = maxHeight
-          renderWidth = renderHeight * aspectRatio
-        }
-
-        if (renderWidth > maxWidth) {
-          renderWidth = maxWidth
-          renderHeight = renderWidth / aspectRatio
-        }
-
-        displayWidth = Math.floor(renderWidth)
-        displayHeight = Math.floor(renderHeight)
+        if (element.naturalWidth === 0 || element.naturalHeight === 0) return
+        const fitted = fitDisplayDimensions(
+          element.naturalWidth,
+          element.naturalHeight,
+          maxWidth,
+          maxHeight,
+        )
+        displayWidth = fitted.displayWidth
+        displayHeight = fitted.displayHeight
       }
     }
 
