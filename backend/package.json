@@ -26,7 +26,7 @@
     "@types/qrcode": "^1.5.6",
     "archive-shared": "*",
     "argon2": "^0.45.1",
-    "chalk": "^5.6.2",
+    "chalk": "^6.0.0",
     "cookie": "^2.0.1",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
