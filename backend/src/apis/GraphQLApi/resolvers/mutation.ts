@@ -187,6 +187,9 @@ export const mutationResolvers: MutationResolvers = {
       ? {
           areas: args.template.areas.map((a) => ({
             ...a,
+            type: (a.type ?? undefined) as 'text' | 'image' | undefined,
+            imageFit: (a.imageFit ?? undefined) as
+              'cover' | 'contain' | undefined,
             alignH: a.alignH as 'start' | 'center' | 'end',
             alignV: a.alignV as 'start' | 'center' | 'end',
             overflow: a.overflow as 'compress' | 'shrink',

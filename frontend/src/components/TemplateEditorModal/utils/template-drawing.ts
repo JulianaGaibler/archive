@@ -59,8 +59,13 @@ function drawArea(
   ctx.strokeRect(-w / 2, -h / 2, w, h)
   ctx.setLineDash([])
 
-  // Draw preview text
-  drawPreviewText(ctx, area, w, h, scaleX)
+  // Draw preview content: a placeholder glyph for image slots, sample text
+  // for text areas.
+  if (area.type === 'image') {
+    drawImagePlaceholder(ctx, w, h)
+  } else {
+    drawPreviewText(ctx, area, w, h, scaleX)
+  }
 
   if (isSelected) {
     // Corner handles
@@ -84,6 +89,48 @@ function drawArea(
     ctx.stroke()
     drawHandle(ctx, 0, -h / 2 - ROTATION_HANDLE_OFFSET, HANDLE_SIZE, '#ffffff')
   }
+
+  ctx.restore()
+}
+
+// A simple framed-picture glyph so authors can tell image slots apart from
+// text areas at a glance. Drawn area-local (context already translated/rotated
+// to the box centre).
+function drawImagePlaceholder(
+  ctx: CanvasRenderingContext2D,
+  w: number,
+  h: number,
+): void {
+  const s = Math.max(12, Math.min(40, Math.min(w, h) * 0.4))
+  const half = s / 2
+
+  ctx.save()
+  ctx.fillStyle = 'rgba(255,255,255,0.6)'
+  ctx.strokeStyle = 'rgba(255,255,255,0.6)'
+  ctx.lineWidth = Math.max(1, s * 0.06)
+
+  // Frame
+  ctx.strokeRect(-half, -half, s, s)
+
+  // Clip the picture contents to the frame so nothing bleeds out.
+  ctx.beginPath()
+  ctx.rect(-half, -half, s, s)
+  ctx.clip()
+
+  // Sun
+  ctx.beginPath()
+  ctx.arc(-half + s * 0.3, -half + s * 0.3, s * 0.1, 0, Math.PI * 2)
+  ctx.fill()
+
+  // Mountains
+  ctx.beginPath()
+  ctx.moveTo(-half, half)
+  ctx.lineTo(-half + s * 0.4, half - s * 0.45)
+  ctx.lineTo(-half + s * 0.62, half - s * 0.18)
+  ctx.lineTo(-half + s * 0.78, half - s * 0.34)
+  ctx.lineTo(half, half)
+  ctx.closePath()
+  ctx.fill()
 
   ctx.restore()
 }

@@ -39,6 +39,8 @@ const hexColor = z.string().regex(HEX_COLOR, 'Must be a hex color')
 
 const templateAreaSchema = z.object({
   id: z.string().min(1).max(100),
+  type: z.enum(['text', 'image']).optional(),
+  imageFit: z.enum(['cover', 'contain']).optional(),
   x: z.number().min(-100_000).max(100_000),
   y: z.number().min(-100_000).max(100_000),
   width: z.number().min(0).max(100_000),

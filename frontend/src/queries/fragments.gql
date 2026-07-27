@@ -73,6 +73,8 @@ fragment ItemData on Item {
         template {
           areas {
             id
+            type
+            imageFit
             x
             y
             width

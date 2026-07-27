@@ -30,6 +30,8 @@ type Passkey {
 
 input TemplateAreaInput {
   id: String!
+  type: String
+  imageFit: String
   x: Float!
   y: Float!
   width: Float!

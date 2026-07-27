@@ -5,6 +5,7 @@
 2.4.3:
   date: '2026-07-27'
   changes:
+    - '[Added] Support for images in templates alongside text areas'
     - '[Fixed] Some text properties were not saved correctly in the template editor'
 2.4.2:
   date: '2026-07-26'

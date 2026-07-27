@@ -44,6 +44,7 @@
   let previewAreaEl: HTMLDivElement | undefined = $state(undefined)
 
   const selectedArea = $derived(areas.find((a) => a.id === selectedId) ?? null)
+  const isImageArea = $derived((selectedArea?.type ?? 'text') === 'image')
 
   const mediaUrl = $derived.by(() => {
     if (item.type !== 'existing' || !('file' in item.data) || !item.data.file)
@@ -73,6 +74,8 @@
         ...a,
         // Backfill fields added after the template was first saved so older
         // templates keep rendering exactly as before.
+        type: a.type ?? 'text',
+        imageFit: a.imageFit ?? 'cover',
         strokeWidth: a.strokeWidth ?? 0,
         strokeColor: a.strokeColor ?? '#000000',
         uppercase: a.uppercase ?? false,
@@ -141,6 +144,7 @@
   function addArea() {
     const newArea: TemplateArea = {
       id: crypto.randomUUID(),
+      type: 'text',
       x: img ? img.naturalWidth * 0.1 : 50,
       y: img ? img.naturalHeight * 0.1 : 50,
       width: img ? img.naturalWidth * 0.4 : 200,
@@ -180,6 +184,16 @@
   ) {
     if (!selectedId) return
     updateArea(selectedId, { [field]: value })
+  }
+
+  // Switch the selected area between a text caption and an image slot. Image
+  // slots keep the shared geometry/backplate/alignment fields but ignore the
+  // text-styling ones; default the fit the first time an area becomes an image.
+  function setAreaType(type: 'text' | 'image') {
+    if (!selectedId) return
+    const changes: Partial<TemplateArea> = { type }
+    if (type === 'image' && !selectedArea?.imageFit) changes.imageFit = 'cover'
+    updateArea(selectedId, changes)
   }
 
   async function handleSubmit() {
@@ -255,74 +269,140 @@
           <div class="controls">
             {#if selectedArea}
               <div class="control-grid">
-                <!-- Font (wide) + text colour -->
-                <div class="grid-group span-2">
-                  <Select
-                    id="font"
-                    label="Font"
-                    value={selectedArea.font}
-                    onchange={(e) =>
-                      updateSelectedField(
-                        'font',
-                        (e.target as HTMLSelectElement).value,
-                      )}
+                <!-- Area kind: text caption vs image slot -->
+                <SegmentedControl
+                  small
+                  id="areaType"
+                  label="Area type"
+                  value={selectedArea.type ?? 'text'}
+                  onchange={(v) => setAreaType(v as 'text' | 'image')}
+                  items={[
+                    { value: 'text', label: 'Text' },
+                    { value: 'image', label: 'Image' },
+                  ]}
+                />
+
+                {#if isImageArea}
+                  <!-- How the viewer's image fills the box -->
+                  <SegmentedControl
+                    small
+                    id="imageFit"
+                    label="Image fit"
+                    value={selectedArea.imageFit ?? 'cover'}
+                    onchange={(v) =>
+                      updateSelectedField('imageFit', v as 'cover' | 'contain')}
                     items={[
-                      { value: 'Impact', label: 'Anton (like Impact)' },
-                      {
-                        value: 'Comic Sans',
-                        label: 'Comic Neue (like Comic Sans)',
-                      },
-                      { value: 'Jost', label: 'Jost (like Futura)' },
-                      SELECT_SEPARATOR,
-                      {
-                        value: 'Sans-serif',
-                        label: 'HK Grotesk (Archive sans-serif)',
-                      },
-                      { value: 'Serif', label: 'Merriweather (Archive serif)' },
+                      { value: 'cover', label: 'Cover' },
+                      { value: 'contain', label: 'Contain' },
                     ]}
                   />
-                </div>
-                <ColorPicker
-                  id="textColor"
-                  label="Text color"
-                  value={selectedArea.textColor}
-                  onchange={(e) => updateSelectedField('textColor', e.value)}
-                />
+                {:else}
+                  <!-- Font (wide) + text colour -->
+                  <div class="grid-group span-2">
+                    <Select
+                      id="font"
+                      label="Font"
+                      value={selectedArea.font}
+                      onchange={(e) =>
+                        updateSelectedField(
+                          'font',
+                          (e.target as HTMLSelectElement).value,
+                        )}
+                      items={[
+                        { value: 'Impact', label: 'Anton (like Impact)' },
+                        {
+                          value: 'Comic Sans',
+                          label: 'Comic Neue (like Comic Sans)',
+                        },
+                        { value: 'Jost', label: 'Jost (like Futura)' },
+                        SELECT_SEPARATOR,
+                        {
+                          value: 'Sans-serif',
+                          label: 'HK Grotesk (Archive sans-serif)',
+                        },
+                        {
+                          value: 'Serif',
+                          label: 'Merriweather (Archive serif)',
+                        },
+                      ]}
+                    />
+                  </div>
+                  <ColorPicker
+                    id="textColor"
+                    label="Text color"
+                    value={selectedArea.textColor}
+                    onchange={(e) => updateSelectedField('textColor', e.value)}
+                  />
 
-                <!-- Size + outline sliders + outline colour -->
-                <LabeledSlider
-                  id="fontSize"
-                  small={false}
-                  label={`Size: ${selectedArea.fontSize}px`}
-                  min={8}
-                  max={128}
-                  step={2}
-                  value={selectedArea.fontSize}
-                  oninput={(e) => updateSelectedField('fontSize', e.value)}
-                />
-                <LabeledSlider
-                  id="strokeWidth"
-                  small={false}
-                  label={`Outline: ${
-                    (selectedArea.strokeWidth ?? 0) === 0
-                      ? 'off'
-                      : selectedArea.strokeWidth
-                  }`}
-                  min={0}
-                  max={28}
-                  step={1}
-                  value={selectedArea.strokeWidth ?? 0}
-                  oninput={(e) => updateSelectedField('strokeWidth', e.value)}
-                />
-                <ColorPicker
-                  id="strokeColor"
-                  label="Outline color"
-                  value={selectedArea.strokeColor ?? '#000000'}
-                  disabled={(selectedArea.strokeWidth ?? 0) === 0}
-                  onchange={(e) => updateSelectedField('strokeColor', e.value)}
-                />
+                  <!-- Size + outline sliders + outline colour -->
+                  <LabeledSlider
+                    id="fontSize"
+                    small={false}
+                    label={`Size: ${selectedArea.fontSize}px`}
+                    min={8}
+                    max={128}
+                    step={2}
+                    value={selectedArea.fontSize}
+                    oninput={(e) => updateSelectedField('fontSize', e.value)}
+                  />
+                  <LabeledSlider
+                    id="strokeWidth"
+                    small={false}
+                    label={`Outline: ${
+                      (selectedArea.strokeWidth ?? 0) === 0
+                        ? 'off'
+                        : selectedArea.strokeWidth
+                    }`}
+                    min={0}
+                    max={28}
+                    step={1}
+                    value={selectedArea.strokeWidth ?? 0}
+                    oninput={(e) => updateSelectedField('strokeWidth', e.value)}
+                  />
+                  <ColorPicker
+                    id="strokeColor"
+                    label="Outline color"
+                    value={selectedArea.strokeColor ?? '#000000'}
+                    disabled={(selectedArea.strokeWidth ?? 0) === 0}
+                    onchange={(e) =>
+                      updateSelectedField('strokeColor', e.value)}
+                  />
 
-                <!-- Backplate + overflow -->
+                  <SegmentedControl
+                    small
+                    id="overflow"
+                    label="Overflow mode"
+                    value={selectedArea.overflow}
+                    onchange={(v) =>
+                      updateSelectedField(
+                        'overflow',
+                        v as 'compress' | 'shrink',
+                      )}
+                    items={[
+                      { value: 'compress', label: 'Compress' },
+                      { value: 'shrink', label: 'Shrink' },
+                    ]}
+                  />
+                  <SegmentedControl
+                    small
+                    id="uppercase"
+                    label="Text case"
+                    value={selectedArea.uppercase ? 'upper' : 'normal'}
+                    onchange={(v) =>
+                      updateSelectedField('uppercase', v === 'upper')}
+                    items={[
+                      {
+                        value: 'normal',
+                        label: 'Aa',
+                        tooltip: 'Normal case',
+                        class: 'case-normal',
+                      },
+                      { value: 'upper', label: 'AA', tooltip: 'Uppercase' },
+                    ]}
+                  />
+                {/if}
+
+                <!-- Backplate (shared by text + image areas) -->
                 <Select
                   id="backplateOpacity"
                   label="Backplating"
@@ -347,21 +427,10 @@
                   onchange={(e) =>
                     updateSelectedField('backplateColor', e.value)}
                 />
-                <SegmentedControl
-                  small
-                  id="overflow"
-                  label="Overflow mode"
-                  value={selectedArea.overflow}
-                  onchange={(v) =>
-                    updateSelectedField('overflow', v as 'compress' | 'shrink')}
-                  items={[
-                    { value: 'compress', label: 'Compress' },
-                    { value: 'shrink', label: 'Shrink' },
-                  ]}
-                />
 
-                <!-- Alignment + casing. The two alignment triads share a line
-                     on the narrowest layout since their icons are tiny. -->
+                <!-- Alignment (text alignment, or image anchor within the box).
+                     The two triads share a line on the narrowest layout since
+                     their icons are tiny. -->
                 <div class="align-pair">
                   <SegmentedControl
                     small
@@ -420,23 +489,6 @@
                     ]}
                   />
                 </div>
-                <SegmentedControl
-                  small
-                  id="uppercase"
-                  label="Text case"
-                  value={selectedArea.uppercase ? 'upper' : 'normal'}
-                  onchange={(v) =>
-                    updateSelectedField('uppercase', v === 'upper')}
-                  items={[
-                    {
-                      value: 'normal',
-                      label: 'Aa',
-                      tooltip: 'Normal case',
-                      class: 'case-normal',
-                    },
-                    { value: 'upper', label: 'AA', tooltip: 'Uppercase' },
-                  ]}
-                />
               </div>
               <div class="control-actions">
                 <Button icon title="Delete area" onclick={deleteSelectedArea}>

@@ -54,6 +54,23 @@
   let dropzone = $state<HTMLElement | undefined>(undefined)
   let fileInput = $state<HTMLInputElement | undefined>(undefined)
   let showDropzone = $state(false)
+
+  const isEditing = $derived($editData !== undefined)
+  // In view mode a meme template turns the item into an interactive "apply"
+  // surface with its own image drop targets. The post-wide upload dropzone would
+  // sit on top and swallow those drops, so suppress it there — but keep it while
+  // editing, where dropping files adds them to the post.
+  const hasTemplate = $derived(
+    $items.some(
+      (item) =>
+        item.type === 'existing' &&
+        item.data.__typename === 'ImageItem' &&
+        'file' in item.data &&
+        !!item.data.file &&
+        'modifications' in item.data.file &&
+        !!item.data.file.modifications?.template,
+    ),
+  )
   let openDialog = $state<OpenDialog | undefined>(undefined)
   let showReorderModal = $state(false)
   let reorderItems = $state<
@@ -86,6 +103,8 @@
   }
 
   function handleDragEnter(e: DragEvent) {
+    // Let drags through to a template's image slots when just viewing.
+    if (!isEditing && hasTemplate) return
     // Only show dropzone if files are being dragged
     if (e.dataTransfer?.types.includes('Files')) {
       showDropzone = true

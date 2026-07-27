@@ -1599,6 +1599,8 @@ export function createEditManager(
           ? {
               areas: template.areas.map((a) => ({
                 id: a.id,
+                type: a.type,
+                imageFit: a.imageFit,
                 x: a.x,
                 y: a.y,
                 width: a.width,

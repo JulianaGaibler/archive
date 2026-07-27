@@ -1,11 +1,13 @@
 import type { TemplateConfig } from 'archive-shared/src/templates'
 import { renderTextInArea } from './text-renderer'
+import { renderImageInArea } from './image-renderer'
 import { ensureAreaFontsLoaded } from '@src/utils/template-text-layout'
 
 export async function renderTemplateToCanvas(
   image: HTMLImageElement,
   template: TemplateConfig,
   texts: string[],
+  images: (HTMLImageElement | null)[],
 ): Promise<HTMLCanvasElement> {
   // Make sure the self-hosted fonts are loaded before drawing, otherwise the
   // export silently falls back to a system font.
@@ -19,14 +21,20 @@ export async function renderTemplateToCanvas(
   ctx.drawImage(image, 0, 0)
 
   for (let i = 0; i < template.areas.length; i++) {
-    const text = texts[i] || ''
-    renderTextInArea(
-      ctx,
-      template.areas[i],
-      text,
-      image.naturalWidth,
-      image.naturalHeight,
-    )
+    const area = template.areas[i]
+    if (area.type === 'image') {
+      // Empty image slots are simply left out of the export.
+      const areaImage = images[i]
+      if (areaImage) renderImageInArea(ctx, area, areaImage)
+    } else {
+      renderTextInArea(
+        ctx,
+        area,
+        texts[i] || '',
+        image.naturalWidth,
+        image.naturalHeight,
+      )
+    }
   }
 
   return canvas

@@ -231,6 +231,8 @@ A text overlay area within a template.
 """
 type TemplateArea {
   id: String!
+  type: String
+  imageFit: String
   x: Float!
   y: Float!
   width: Float!

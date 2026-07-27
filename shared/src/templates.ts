@@ -1,5 +1,9 @@
 export interface TemplateArea {
   id: string
+  // Area kind. Absent = 'text' for backwards compatibility with templates
+  // saved before image areas existed. Text areas take a caption; image areas
+  // take a viewer-supplied image fitted into the box at apply time.
+  type?: 'text' | 'image'
   x: number
   y: number
   width: number
@@ -8,6 +12,10 @@ export interface TemplateArea {
   alignH: 'start' | 'center' | 'end'
   alignV: 'start' | 'center' | 'end'
   overflow: 'compress' | 'shrink'
+  // How a viewer's image fills an image area's box (image areas only).
+  // 'cover' fills the box and crops overflow; 'contain' fits the whole image
+  // inside, letterboxing as needed. Absent = 'cover'.
+  imageFit?: 'cover' | 'contain'
   font: string
   fontSize: number
   textColor: string
