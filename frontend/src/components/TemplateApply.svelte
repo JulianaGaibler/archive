@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { TemplateConfig } from 'archive-shared/src/templates'
   import Button from 'tint/components/Button.svelte'
+  import IconTrash from 'tint/icons/20-trash.svg?raw'
   import IconDownload from 'tint/icons/20-download.svg?raw'
   import IconCopy from 'tint/icons/20-copy.svg?raw'
   import { fly } from 'svelte/transition'
@@ -112,7 +113,7 @@
     for (let i = 0; i < template.areas.length; i++) {
       if (editingArea === i) continue
       if (!texts[i]) {
-        renderPlaceholderInArea(ctx, template.areas[i], i)
+        renderPlaceholderInArea(ctx, template.areas[i])
       } else {
         renderTextInArea(
           ctx,
@@ -147,6 +148,10 @@
     } finally {
       exporting = false
     }
+  }
+
+  async function handleReset() {
+    texts = template.areas.map(() => '')
   }
 
   let scaleX = $derived(img ? displayWidth / img.naturalWidth : 1)
@@ -220,6 +225,16 @@
         <Button
           icon
           small
+          onclick={handleCopy}
+          disabled={exporting}
+          variant="primary"
+          tooltip="Copy to clipboard"
+        >
+          {@html IconCopy}
+        </Button>
+        <Button
+          icon
+          small
           onclick={handleDownload}
           disabled={exporting}
           tooltip="Download image"
@@ -229,11 +244,11 @@
         <Button
           icon
           small
-          onclick={handleCopy}
+          onclick={handleReset}
           disabled={exporting}
-          tooltip="Copy to clipboard"
+          tooltip="Clear all text"
         >
-          {@html IconCopy}
+          {@html IconTrash}
         </Button>
       </div>
     {/if}
@@ -283,13 +298,14 @@
 
   .export-actions
     position: absolute
-    inset-block-end: var(--tint-size-16)
+    inset-block-end: calc(-1 * var(--tint-size-16))
     inset-inline-start: 50%
     transform: translateX(-50%)
     padding: var(--tint-size-8)
     border-radius: var(--tint-size-48)
     background-color: color-mix(in srgb, var(--tint-bg) 80%, transparent)
     backdrop-filter: blur(8px) saturate(120%)
+    border: 1px solid var(--tint-card-border)
     z-index: 3
     display: flex
     gap: var(--tint-size-8)

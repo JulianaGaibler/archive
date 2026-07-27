@@ -2,7 +2,6 @@ import type { TemplateArea } from 'archive-shared/src/templates'
 import {
   layoutText,
   paintTextLines,
-  resolveFontFamily,
   transformText,
   outlineLineWidth,
 } from '@src/utils/template-text-layout'
@@ -65,7 +64,6 @@ export function renderTextInArea(
 export function renderPlaceholderInArea(
   ctx: CanvasRenderingContext2D,
   area: TemplateArea,
-  index: number,
 ): void {
   const cx = area.x + area.width / 2
   const cy = area.y + area.height / 2
@@ -78,27 +76,49 @@ export function renderPlaceholderInArea(
   const w = area.width
   const h = area.height
 
-  // Clip to area bounds
-  ctx.beginPath()
-  ctx.rect(-w / 2, -h / 2, w, h)
-  ctx.clip()
+  // Lay out the placeholder exactly like real text so it previews the area's
+  // actual styling (font, size, casing, outline). `layoutText` leaves the real
+  // weighted font on the context, which paintTextLines then reuses.
+  const placeholderText = transformText('Type here...', area.uppercase)
+  const layout = layoutText(ctx, area, placeholderText, w, h)
+  ctx.textAlign = areaTextAlign(area.alignH)
 
-  // Dashed border
+  // Measure the laid-out text so the dashed box hugs the text, not the area.
+  ctx.letterSpacing = `${layout.letterSpacing}px`
+  let maxLineWidth = 0
+  for (const line of layout.lines) {
+    maxLineWidth = Math.max(maxLineWidth, ctx.measureText(line).width)
+  }
+  ctx.letterSpacing = '0px'
+
+  const textH = (layout.lines.length - 1) * layout.lineHeight + layout.fontSize
+  let boxLeft: number
+  if (area.alignH === 'start') {
+    boxLeft = layout.startX
+  } else if (area.alignH === 'end') {
+    boxLeft = layout.startX - maxLineWidth
+  } else {
+    boxLeft = layout.startX - maxLineWidth / 2
+  }
+
+  const pad = Math.max(4, layout.fontSize * 0.15)
   ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)'
   ctx.lineWidth = 2
   ctx.setLineDash([6, 4])
-  ctx.strokeRect(-w / 2, -h / 2, w, h)
+  ctx.strokeRect(
+    boxLeft - pad,
+    layout.startY - pad,
+    maxLineWidth + pad * 2,
+    textH + pad * 2,
+  )
   ctx.setLineDash([])
 
-  // Use same layout logic as real text
-  const placeholderText = transformText(`Text ${index + 1}`, area.uppercase)
-  const layout = layoutText(ctx, area, placeholderText, w, h)
-
-  // Override font to italic normal-weight for placeholder appearance
-  ctx.font = `italic ${layout.fontSize}px ${resolveFontFamily(area.font)}`
-
-  ctx.textAlign = areaTextAlign(area.alignH)
-  paintTextLines(ctx, layout, { fillStyle: 'rgba(255, 255, 255, 0.4)' })
+  // Paint with the area's real text styles.
+  paintTextLines(ctx, layout, {
+    fillStyle: area.textColor,
+    strokeStyle: area.strokeColor ?? '#000000',
+    strokeLineWidth: outlineLineWidth(layout.fontSize, area.strokeWidth),
+  })
 
   ctx.restore()
 }

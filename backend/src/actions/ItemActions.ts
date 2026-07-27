@@ -13,7 +13,8 @@ import PaginationUtils, {
   PaginationArgs,
   Connection,
 } from './PaginationUtils.js'
-import { NotFoundError, InputError } from '@src/errors/index.js'
+import { NotFoundError, InputError, validateInput } from '@src/errors/index.js'
+import z from 'zod/v4'
 import { authorize, policies } from '@src/authorization/index.js'
 import PostModel from '@src/models/PostModel.js'
 import { UserExternal, UserInternal } from '@src/models/UserModel.js'
@@ -29,6 +30,36 @@ import type { TemplateConfig } from 'archive-shared/src/templates.js'
 const itemTable = ItemModel.table
 const fileTable = FileModel.table
 const itemSearchView = ItemModel.itemSearchView
+
+// Client templates are stored as-is and later rendered in viewers' browsers, so
+// validate values (not just the GraphQL shape) on write: bounded enums/numbers,
+// strict hex colors (no CSS injection), capped area count.
+const HEX_COLOR = /^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/
+const hexColor = z.string().regex(HEX_COLOR, 'Must be a hex color')
+
+const templateAreaSchema = z.object({
+  id: z.string().min(1).max(100),
+  x: z.number().min(-100_000).max(100_000),
+  y: z.number().min(-100_000).max(100_000),
+  width: z.number().min(0).max(100_000),
+  height: z.number().min(0).max(100_000),
+  rotation: z.number().min(-360).max(360),
+  alignH: z.enum(['start', 'center', 'end']),
+  alignV: z.enum(['start', 'center', 'end']),
+  overflow: z.enum(['compress', 'shrink']),
+  font: z.enum(['Impact', 'Comic Sans', 'Jost', 'Sans-serif', 'Serif']),
+  fontSize: z.number().int().min(1).max(1_000),
+  textColor: hexColor,
+  strokeWidth: z.number().int().min(0).max(100).optional(),
+  strokeColor: hexColor.optional(),
+  uppercase: z.boolean().optional(),
+  backplateOpacity: z.number().int().min(0).max(100),
+  backplateColor: hexColor,
+})
+
+const templateConfigSchema = z.object({
+  areas: z.array(templateAreaSchema).max(50),
+})
 
 const ItemActions = {
   /// Queries
@@ -514,7 +545,9 @@ const ItemActions = {
     const meta = (file.processingMeta as Record<string, unknown>) || {}
 
     if (fields.template) {
-      meta.template = fields.template
+      // Untrusted client input — validate values (not just shape) before we
+      // persist a blob that gets rendered in other users' browsers.
+      meta.template = validateInput(templateConfigSchema, fields.template)
     } else {
       delete meta.template
     }

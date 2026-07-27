@@ -1610,6 +1610,9 @@ export function createEditManager(
                 font: a.font,
                 fontSize: Math.round(a.fontSize),
                 textColor: a.textColor,
+                strokeWidth: Math.round(a.strokeWidth ?? 0),
+                strokeColor: a.strokeColor,
+                uppercase: a.uppercase,
 
                 backplateOpacity: Math.round(a.backplateOpacity),
                 backplateColor: a.backplateColor,

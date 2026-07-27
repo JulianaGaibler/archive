@@ -4,7 +4,7 @@
     TemplateConfig,
   } from 'archive-shared/src/templates'
   import Button from 'tint/components/Button.svelte'
-  import Select from 'tint/components/Select.svelte'
+  import Select, { SELECT_SEPARATOR } from 'tint/components/Select.svelte'
   import ColorPicker from 'tint/components/ColorPicker/ColorPicker.svelte'
   import LabeledSlider from 'tint/components/LabeledSlider.svelte'
   import Modal from 'tint/components/Modal.svelte'
@@ -273,8 +273,12 @@
                         label: 'Comic Neue (like Comic Sans)',
                       },
                       { value: 'Jost', label: 'Jost (like Futura)' },
-                      { value: 'Sans-serif', label: 'Sans-serif' },
-                      { value: 'Serif', label: 'Serif' },
+                      SELECT_SEPARATOR,
+                      {
+                        value: 'Sans-serif',
+                        label: 'HK Grotesk (Archive sans-serif)',
+                      },
+                      { value: 'Serif', label: 'Merriweather (Archive serif)' },
                     ]}
                   />
                 </div>

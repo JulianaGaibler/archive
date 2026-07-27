@@ -2,6 +2,10 @@
 # Labels: [Added], [Fixed], [Improved], [Removed], [Deprecated], [Security]
 # The `deploy` section is only shown in GitHub releases, not in the app.
 
+2.4.3:
+  date: '2026-07-27'
+  changes:
+    - '[Fixed] Some text properties were not saved correctly in the template editor'
 2.4.2:
   date: '2026-07-26'
   changes:
